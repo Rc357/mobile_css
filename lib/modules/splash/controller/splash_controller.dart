@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:css/constants/my_logger.dart';
 import 'package:css/routes/app_pages.dart';
 import 'package:get/get.dart';
 
-class StartController extends GetxController {
-  static StartController get instance => Get.find();
+class SplashController extends GetxController {
+  static SplashController get instance => Get.find();
 
   @override
   void onInit() {
@@ -12,9 +13,10 @@ class StartController extends GetxController {
     _loadingTimer();
   }
 
-  void _loadingTimer() async {
-    Timer(const Duration(seconds: 10), () {
+  void _loadingTimer() {
+    Timer(const Duration(seconds: 3), () {
       Get.toNamed(AppPages.START);
+      myLogger.i("Splash Loaded");
     });
   }
 }

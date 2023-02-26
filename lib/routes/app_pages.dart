@@ -1,3 +1,6 @@
+import 'package:css/modules/home/bindings/binding.dart';
+import 'package:css/modules/home/views/home_view.dart';
+import 'package:css/modules/splash/binding/splash_binding.dart';
 import 'package:css/modules/splash/views/splash_view.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:css/modules/start/binding.dart';
@@ -11,12 +14,19 @@ class AppPages {
 
   static const SPLASH = Routes.SPLASH;
   static const START = Routes.START;
+  static const HOME = Routes.HOME;
   static const START_STUDENT = Routes.START_STUDENT;
 
   static final routes = [
     GetPage(
       name: _Paths.SPLASH,
       page: () => const SplashView(),
+      binding: SplashBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOME,
+      page: () => HomeView(),
+      binding: HomeBinding(),
     ),
     GetPage(
       name: _Paths.START,
