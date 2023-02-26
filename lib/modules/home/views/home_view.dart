@@ -1,8 +1,13 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:css/constants/app_colors.dart';
 import 'package:css/modules/home/controller/controller.dart';
 import 'package:css/modules/start/start_view.dart';
+import 'package:css/utils/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+part 'widgets/home_card.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -16,7 +21,10 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          color: Colors.blue,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/bg_home.png'),
+                  fit: BoxFit.fill)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -72,6 +80,7 @@ class HomeView extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
+                        _SurveyCard(),
                       ],
                     ),
                   ]),

@@ -1,11 +1,35 @@
 import 'package:css/constants/my_logger.dart';
+import 'package:css/models/card_model.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
   late Worker? _selectedIndexEverWorker;
 
+  final bannerIndex = 0.obs;
   final selectedIndex = 0.obs;
+  final images = <CardModel>[
+    CardModel(
+      label: 'Library',
+      image:
+          'https://images.pexels.com/photos/6994992/pexels-photo-6994992.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    ),
+    CardModel(
+      label: 'Something',
+      image:
+          'https://images.pexels.com/photos/6994992/pexels-photo-6994992.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    ),
+    CardModel(
+      label: 'Something',
+      image:
+          'https://images.pexels.com/photos/6994992/pexels-photo-6994992.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    ),
+    CardModel(
+      label: 'Something',
+      image:
+          'https://images.pexels.com/photos/6994992/pexels-photo-6994992.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    ),
+  ].obs;
 
   @override
   void onInit() {
@@ -31,6 +55,10 @@ class HomeController extends GetxController {
         }
       },
     );
+  }
+
+  void updateBannerIndex(int index) {
+    bannerIndex.value = index;
   }
 
   void updateSelectedIndex(int index) {
