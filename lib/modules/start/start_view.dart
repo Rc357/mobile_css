@@ -1,88 +1,106 @@
+import 'package:css/modules/start/widgets/text_field.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:css/modules/start/controller.dart';
-import 'package:css/modules/start/student/start_student_view.dart';
 import 'package:css/routes/app_pages.dart';
+
+part 'widgets/select_services.dart';
+part 'widgets/type_of_user.dart';
 
 class StartView extends GetView<StartController> {
   const StartView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/bg_start.png'),
-                fit: BoxFit.fill)),
+      backgroundColor: Colors.blue.shade900,
+      body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
               const SizedBox(
-                height: 100,
+                height: 80,
               ),
-              const Text(
-                "Select Type of User",
-                style: TextStyle(fontSize: 24, color: Colors.white),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 50.0),
+              Container(
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(40.0),
+                        topLeft: Radius.circular(40.0)),
+                    color: Color(0XFFd3d3d3)),
                 child: Column(
                   children: [
-                    RadioListTile(
-                      title: const Text("Student"),
-                      value: "male",
-                      groupValue: controller.userType,
-                      onChanged: (value) {
-                        controller.updateSelectedUserType(value.toString());
-                      },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFieldInput(
+                            onChanged: (String? value) {
+                              controller.setNameValue(value!);
+                            },
+                            hintText: 'John Doe',
+                            label: 'Name',
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFieldInput(
+                            onChanged: (String? value) {
+                              controller.setAddressValue(value!);
+                            },
+                            hintText: 'Address',
+                            label: 'Address',
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFieldInput(
+                            onChanged: (String? value) {
+                              controller.setContactValue(value!);
+                            },
+                            hintText: '09XX XXX XXXX',
+                            label: 'Contact no.',
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TypeOfUser(),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SelectServices(),
+                        ],
+                      ),
                     ),
-                    RadioListTile(
-                      title: const Text("Guest"),
-                      value: "guest",
-                      groupValue: controller.userType,
-                      onChanged: (value) {
-                        controller.updateSelectedUserType(value.toString());
-                      },
+                    const SizedBox(
+                      height: 50,
                     ),
-                    RadioListTile(
-                      title: const Text("Staff"),
-                      value: "staff",
-                      groupValue: controller.userType,
-                      onChanged: (value) {
-                        controller.updateSelectedUserType(value.toString());
+                    ElevatedButton(
+                      onPressed: () {
+                        controller.submitData();
+                        Get.toNamed(AppPages.START_STUDENT);
                       },
+                      style: ElevatedButton.styleFrom(
+                          shape: const StadiumBorder()),
+                      child: SizedBox(
+                        width: 200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text('Submit'),
+                            Icon(Icons.arrow_forward_ios_outlined)
+                          ],
+                        ),
+                      ),
                     ),
-                    RadioListTile(
-                      title: const Text("Admin"),
-                      value: "admin",
-                      groupValue: controller.userType,
-                      onChanged: (value) {
-                        controller.updateSelectedUserType(value.toString());
-                      },
+                    const SizedBox(
+                      height: 150,
                     ),
                   ],
-                ),
-              ),
-              const SizedBox(
-                height: 200,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Get.toNamed(AppPages.START_STUDENT);
-                },
-                style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
-                child: SizedBox(
-                  width: 200,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('NEXT'),
-                      Icon(Icons.arrow_forward_ios_outlined)
-                    ],
-                  ),
                 ),
               )
             ],
