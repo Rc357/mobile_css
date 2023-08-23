@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "626750520968",
+    "project_id": "mobilecss-f5a85",
+    "storage_bucket": "mobilecss-f5a85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626750520968:android:bf08fed03b46c44917e93d",
+        "android_client_info": {
+          "package_name": "com.example.css"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626750520968-om0a12q7889s5qmg05bd8er392oaj1e2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7u3hfx-LLd7UbW8VbyVW4vL_N2L6tbBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626750520968-om0a12q7889s5qmg05bd8er392oaj1e2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

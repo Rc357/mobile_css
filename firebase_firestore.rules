@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+    match /databases/{database}/documents {
+        match /user/{user} {
+            allow create: if  true;
+
+            allow read: if true;
+
+            allow update: if true;
+
+            allow delete: if false;
+        }
+
+        match /surveyLibrary/{surveyLibrary} {
+            allow create: if  true;
+
+            allow read: if true;
+
+            allow update: if true;
+
+            allow delete: if false;
+        }
+
+        function isAuthenticated(){
+            return request.auth != null;
+        }
+
+
+    }
+}
+
+// To deploy rules, just run firebase deploy --only firestore:rules
