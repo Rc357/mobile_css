@@ -1,14 +1,24 @@
 import 'package:css/app/instances/firebase_instances.dart';
 import 'package:css/app/models/user_model.dart';
-import 'package:get/get.dart';
 
 class UserRepository {
   static const String _userData = 'user';
 
-  static Future<void> createSurvey(UserModel userModel) async {
+  static Future<UserModel> createUserToSurvey(UserModel userModel) async {
     try {
-      final docRef = firestore.collection(_userData).doc(userModel.uid);
-      await docRef.set(userModel.toMap());
+      final docRef = firestore.collection(_userData).doc();
+      final userData = UserModel(
+          answered: userModel.answered,
+          contact: userModel.contact,
+          createdAt: userModel.createdAt,
+          name: userModel.name,
+          reference: docRef.id,
+          service: userModel.service,
+          uid: userModel.uid,
+          updatedAt: userModel.updatedAt,
+          userType: userModel.userType);
+      await docRef.set(userData.toMap());
+      return userData;
     } catch (_) {
       rethrow;
     }

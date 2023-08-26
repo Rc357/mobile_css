@@ -9,8 +9,6 @@ class StartStudentView extends StatefulWidget {
 }
 
 class _StartStudentViewState extends State<StartStudentView> {
-  String _userType = '';
-
   ExpandableController _expandableController = ExpandableController();
   TextEditingController _studentId = TextEditingController();
 
@@ -46,7 +44,7 @@ class _StartStudentViewState extends State<StartStudentView> {
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Student ID',
-                            hintText: 'Please eneter student id',
+                            hintText: 'Please enter student id',
                           ),
                         ),
                       ),
@@ -91,7 +89,7 @@ class _StartStudentViewState extends State<StartStudentView> {
 
                             //CONTENT EXPANDED
                             expanded: Padding(
-                              padding: EdgeInsets.only(left: 0, right: 0),
+                              padding: const EdgeInsets.only(left: 0, right: 0),
                               child: Column(
                                 children: <Widget>[
                                   Column(

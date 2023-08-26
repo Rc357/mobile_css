@@ -34,6 +34,9 @@ class StartController extends GetxController {
   final isUserExpanded = false.obs;
   final isServiceExpanded = false.obs;
 
+  final userId = ''.obs;
+  final currentUserData = Rxn<UserModel>();
+
   final expandableController = ExpandableController().obs;
   final expandableController2 = ExpandableController().obs;
   final nameCtrl = TextEditingController();
@@ -79,37 +82,40 @@ class StartController extends GetxController {
             break;
           case UserStartStatus.submitted:
             MyLogger.printInfo(currentState());
-            final userId = '${_contact.value}_${serviceSelected.value}';
-            if (serviceSelected.value == 'Library') {
-              surveyLibraryController.userId.value = userId;
-              Get.toNamed(AppPages.SURVEY_LIBRARY);
-            } else if (serviceSelected.value == 'Admin Office') {
-              surveyAdminOfficeController.userId.value =
-                  '${_contact.value}_Admin_Office';
-              Get.toNamed(AppPages.SURVEY_ADMIN_OFFICE);
-            } else if (serviceSelected.value == 'Security Office') {
-              surveySecurityOfficeController.userId.value =
-                  '${_contact.value}_Security_Office';
-              Get.toNamed(AppPages.SURVEY_SECURITY_OFFICE);
-            } else if (serviceSelected.value == 'Registrar') {
-              surveyRegistrarOfficeController.userId.value = userId;
-              Get.toNamed(AppPages.SURVEY_REGISTRAR_OFFICE);
-            } else if (serviceSelected.value == 'Cashier') {
-              surveyCashierOfficeController.userId.value = userId;
-              Get.toNamed(AppPages.SURVEY_CASHIER);
-            }
+
+            Get.toNamed(AppPages.GENERATED_QR,
+                arguments: currentUserData.value);
+
+            // if (serviceSelected.value == 'Library') {
+            //   surveyLibraryController.userId.value = userId.value;
+            //   Get.toNamed(AppPages.SURVEY_LIBRARY);
+            // } else if (serviceSelected.value == 'Admin Office') {
+            //   surveyAdminOfficeController.userId.value =
+            //       '${_contact.value}_Admin_Office';
+            //   Get.toNamed(AppPages.SURVEY_ADMIN_OFFICE);
+            // } else if (serviceSelected.value == 'Security Office') {
+            //   surveySecurityOfficeController.userId.value =
+            //       '${_contact.value}_Security_Office';
+            //   Get.toNamed(AppPages.SURVEY_SECURITY_OFFICE);
+            // } else if (serviceSelected.value == 'Registrar') {
+            //   surveyRegistrarOfficeController.userId.value = userId.value;
+            //   Get.toNamed(AppPages.SURVEY_REGISTRAR_OFFICE);
+            // } else if (serviceSelected.value == 'Cashier') {
+            //   surveyCashierOfficeController.userId.value = userId.value;
+            //   Get.toNamed(AppPages.SURVEY_CASHIER);
+            // }
             break;
         }
       },
     );
   }
 
-  void updateSelectedUserType(String selectedType) {
-    userTypeSelected.value = selectedType;
-    update();
+  // void updateSelectedUserType(String selectedType) {
+  //   userTypeSelected.value = selectedType;
+  //   update();
 
-    MyLogger.printInfo(currentState());
-  }
+  //   MyLogger.printInfo(currentState());
+  // }
 
   void setNameValue(String name) {
     _name.value = name;
@@ -188,13 +194,14 @@ class StartController extends GetxController {
 
       _status.value = UserStartStatus.error;
     } else {
-      final surveyExist = await UserRepository.getSurvey(
-          '${_contact.value}_${serviceSelected.value}');
-      if (surveyExist != null) {}
+      userId.value =
+          '${_name.value.removeAllWhitespace}_${_contact.value}_${serviceSelected.value.removeAllWhitespace}';
+      final surveyExist = await UserRepository.getSurvey(userId.value);
+
       final userData = UserModel(
-          uid:
-              '${_contact.value}_${serviceSelected.value}_${DateTime.now().toIso8601String()})',
+          uid: userId.value,
           contact: _contact.value,
+          reference: '',
           name: _name.value,
           userType: userTypeSelected.value,
           answered: false,
@@ -202,7 +209,7 @@ class StartController extends GetxController {
           createdAt:
               surveyExist == null ? DateTime.now() : surveyExist.createdAt,
           updatedAt: DateTime.now());
-      await UserRepository.createSurvey(userData);
+      currentUserData.value = await UserRepository.createUserToSurvey(userData);
       _status.value = UserStartStatus.submitted;
     }
   }

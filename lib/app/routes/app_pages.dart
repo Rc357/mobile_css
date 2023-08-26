@@ -1,5 +1,7 @@
 import 'package:css/app/modules/generated_qr/bindings/generated_qr_binding.dart';
 import 'package:css/app/modules/generated_qr/views/generated_qr_view.dart';
+import 'package:css/app/modules/qr_scanner/bindings/qr_code_scanner_binding.dart';
+import 'package:css/app/modules/qr_scanner/views/qr_code_scanner_view.dart';
 import 'package:css/app/modules/survey/submitted_view.dart';
 import 'package:css/app/modules/survey/survey_admin_office/bindings/survey_binding.dart';
 import 'package:css/app/modules/survey/survey_admin_office/views/survey_view.dart';
@@ -36,6 +38,7 @@ class AppPages {
   static const SURVEY_CASHIER = Routes.SURVEY_CASHIER;
   static const SURVEY_SUBMITTED = Routes.SURVEY_SUBMMITED;
   static const GENERATED_QR = Routes.GENERATED_QR;
+  static const QR_SCANNER_LOGIN = Routes.QR_SCANNER_LOGIN;
 
   static final routes = [
     GetPage(
@@ -87,10 +90,15 @@ class AppPages {
       name: _Paths.SURVEY_SUBMITTED,
       page: () => SubmittedView(),
     ),
-    // GetPage(
-    //   name: _Paths.GENERATED_QR,
-    //   page: () => const GeneratedQrView(),
-    //   binding: GeneratedQrBinding(),
-    // ),
+    GetPage(
+      name: _Paths.QR_SCANNER_LOGIN,
+      page: () => const QRScanLoginView(),
+      binding: QRScanLoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.GENERATED_QR,
+      page: () => const GeneratedQrView(),
+      binding: GeneratedQrBinding(),
+    ),
   ];
 }

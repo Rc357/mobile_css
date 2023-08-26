@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserModel {
   static const UID = 'uid';
   static const NAME = 'name';
+  static const REFERENCE = 'reference';
   static const CONTACT = 'contact';
   static const USER_TYPE = 'userType';
   static const ANSWERED = 'answered';
@@ -12,6 +13,7 @@ class UserModel {
 
   final String uid;
   final String name;
+  final String reference;
   final String contact;
   final String userType;
   final bool answered;
@@ -22,6 +24,7 @@ class UserModel {
   UserModel({
     required this.uid,
     required this.name,
+    required this.reference,
     required this.contact,
     required this.userType,
     required this.answered,
@@ -34,6 +37,7 @@ class UserModel {
     return <String, dynamic>{
       UID: uid,
       NAME: name,
+      REFERENCE: reference,
       CONTACT: contact,
       USER_TYPE: userType,
       ANSWERED: answered,
@@ -47,6 +51,7 @@ class UserModel {
     return UserModel(
       uid: map[UID] as String,
       name: map[NAME] as String,
+      reference: map[REFERENCE] as String,
       contact: map[CONTACT] as String,
       userType: map[USER_TYPE] as String,
       answered: map[ANSWERED] as bool,

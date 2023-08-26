@@ -33,3 +33,4 @@ class MyApp extends StatelessWidget {
 
 //run app
 //flutter run
+//flutter build apk 

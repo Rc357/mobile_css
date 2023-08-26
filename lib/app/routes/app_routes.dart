@@ -13,6 +13,7 @@ abstract class Routes {
   static const SURVEY_CASHIER = _Paths.SURVEY_CASHIER;
   static const SURVEY_SUBMMITED = _Paths.SURVEY_SUBMITTED;
   static const GENERATED_QR = _Paths.GENERATED_QR;
+  static const QR_SCANNER_LOGIN = _Paths.QR_SCANNER_LOGIN;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const SURVEY_CASHIER = '/survey_cashier';
   static const SURVEY_SUBMITTED = '/survey_submitted';
   static const GENERATED_QR = '/generated-qr';
+  static const QR_SCANNER_LOGIN = '/qr-scanner-login';
 }
