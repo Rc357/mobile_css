@@ -30,8 +30,10 @@
 	<string>Main</string>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app need to save the generate QR code</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to scan QR codes</string>
+	<string>This app needs camera access to scan QR codes</string>	
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

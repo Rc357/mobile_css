@@ -1,9 +1,11 @@
 import 'package:css/app/helpers/image_path_helper.dart';
 import 'package:css/app/modules/generated_qr/widgets/qr_widget.dart';
 import 'package:css/app/modules/widgets/loading_overlay_widget.dart';
+import 'package:css/app/modules/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:screenshot/screenshot.dart';
 
 import '../controllers/generated_qr_controller.dart';
 import '../widgets/separator_line.dart';
@@ -138,9 +140,19 @@ class GeneratedQrView extends GetView<GeneratedQrController> {
                               ),
                               const MySeparator(),
                               const SizedBox(
+                                height: 5,
+                              ),
+                              const Text(
+                                '* Please save or take screen shot of the qr code below *',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.black45),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(
                                 height: 15,
                               ),
-                              Center(
+                              Screenshot(
+                                controller: controller.screenshotController,
                                 child: QRWidget(
                                   data: controller.currentUserData.reference,
                                 ),
@@ -154,6 +166,18 @@ class GeneratedQrView extends GetView<GeneratedQrController> {
                                 controller.currentUserData.reference,
                                 style: const TextStyle(
                                     fontSize: 16, color: Colors.black45),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              RoundedButton(
+                                onPressed: () {
+                                  controller.captureSaveQR();
+                                },
+                                text: 'SAVE',
+                                hasGradient: true,
+                                textColor: Colors.white,
+                                textSize: 16,
                               ),
                             ],
                           ),

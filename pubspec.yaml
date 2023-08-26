@@ -52,6 +52,8 @@ dependencies:
   firebase_core: ^2.15.1
   qr_code_scanner: ^1.0.1
   qr_flutter: ^4.1.0
+  screenshot: ^2.1.0
+  image_gallery_saver: ^2.0.3
 
 dev_dependencies:
   flutter_test:

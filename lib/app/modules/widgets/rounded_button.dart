@@ -47,7 +47,7 @@ class RoundedButton extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: hasGradient
               ? const LinearGradient(
-                  colors: <Color>[AppColors.orange, AppColors.red],
+                  colors: <Color>[AppColors.blue, AppColors.lBlue],
                   // 45 degree is equal to 0.7853982 radians
                   transform: GradientRotation(0.7853982),
                 )
