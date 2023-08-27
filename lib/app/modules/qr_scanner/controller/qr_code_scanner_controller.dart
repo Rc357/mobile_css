@@ -1,4 +1,8 @@
 import 'package:css/app/helpers/my_logger_helper.dart';
+import 'package:css/app/models/user_model.dart';
+import 'package:css/app/repositories/user_repository.dart';
+import 'package:css/app/routes/app_pages.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -9,6 +13,8 @@ class QRScanLoginController extends GetxController {
   late Worker _statusEverWorker;
   final _status = QRScanLoginControllerStatus.initial.obs;
   bool get isLoading => _status.value == QRScanLoginControllerStatus.loading;
+
+  final userData = Rxn<UserModel>();
 
   String currentState() => 'QRScanLoginController(_status: ${_status.value},)';
 
@@ -48,33 +54,49 @@ class QRScanLoginController extends GetxController {
 
   void loginViaQR(Barcode? result) async {
     if (result != null) {
-      _status.value = QRScanLoginControllerStatus.loading;
+      try {
+        _status.value = QRScanLoginControllerStatus.loading;
+        MyLogger.printInfo("GET QR CODE: ${result.code!}");
+        userData.value = await UserRepository.getUserData(result.code!);
 
-      // checkInternet();
-      // AdminsUser? adminUser = await UserService().loginQRService(result.code!);
-      // if (adminUser.name == 'no_result') {
-      //   _status.value = QRScanLoginControllerStatus.loaded;
-      //   Get.snackbar('Error', 'QR code is not recognize.');
-      // }
-      // if (adminUser.roleId == '5') {
-      //   // Navigator.popAndPushNamed(context, "/main_customer");
-      //   Get.toNamed(AppPages.MAIN_CUSTOMER);
-      //   final SharedPreferences sharedPreferences =
-      //       await SharedPreferences.getInstance();
-      //   sharedPreferences.setString("emailKey", adminUser.email!);
-      //   constantController.isCustomer.value = 1;
-      // } else {
-      //   final SharedPreferences sharedPreferences =
-      //       await SharedPreferences.getInstance();
-      //   sharedPreferences.setString("emailKey", adminUser.email!);
+        if (userData.value != null) {
+          Get.back(closeOverlays: true);
+          if (userData.value!.service == 'Library') {
+            Get.toNamed(AppPages.SURVEY_LIBRARY, arguments: userData.value);
+          } else if (userData.value!.service == 'Admin Office') {
+            Get.toNamed(AppPages.SURVEY_ADMIN_OFFICE,
+                arguments: userData.value);
+          } else if (userData.value!.service == 'Security Office') {
+            Get.toNamed(AppPages.SURVEY_SECURITY_OFFICE,
+                arguments: userData.value);
+          } else if (userData.value!.service == 'Registrar') {
+            Get.toNamed(AppPages.SURVEY_REGISTRAR_OFFICE,
+                arguments: userData.value);
+          } else if (userData.value!.service == 'Cashier') {
+            Get.toNamed(AppPages.SURVEY_CASHIER, arguments: userData.value);
+          }
+        } else {
+          _status.value = QRScanLoginControllerStatus.error;
+          Get.snackbar(
+            'Warning!',
+            "Invalid QR Code or Already Used.",
+            colorText: Colors.white,
+            backgroundColor: Colors.lightBlue,
+            icon: const Icon(Icons.add_alert),
+          );
+        }
 
-      //   List<PosUserModel> posData = await GetPosUserViaEmailService()
-      //       .getPosUserViaEmailService(
-      //           sharedPreferences.getString("emailKey")!);
-      //   constantController.isCustomer.value = 0;
-      //   constantController.POS_USER_DATA.value = posData[0];
-      //   Get.toNamed(AppPages.MAIN);
-      // }
+        _status.value = QRScanLoginControllerStatus.loaded;
+      } catch (e) {
+        _status.value = QRScanLoginControllerStatus.error;
+        Get.snackbar(
+          'Warning!',
+          "Invalid QR Code or Already Used.",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
+      }
     }
   }
 }

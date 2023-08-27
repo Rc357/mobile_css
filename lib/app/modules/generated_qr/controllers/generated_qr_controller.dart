@@ -2,9 +2,7 @@ import 'dart:typed_data';
 
 import 'package:css/app/helpers/my_logger_helper.dart';
 import 'package:css/app/models/user_model.dart';
-import 'package:css/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';

@@ -1,10 +1,5 @@
 import 'package:css/app/helpers/my_logger_helper.dart';
 import 'package:css/app/models/user_model.dart';
-import 'package:css/app/modules/survey/survey_admin_office/controller/survey_controller.dart';
-import 'package:css/app/modules/survey/survey_cashier/controller/survey_controller.dart';
-import 'package:css/app/modules/survey/survey_library/controller/survey_controller.dart';
-import 'package:css/app/modules/survey/survey_registrar/controller/survey_controller.dart';
-import 'package:css/app/modules/survey/survey_security_office/controller/survey_controller.dart';
 import 'package:css/app/repositories/user_repository.dart';
 import 'package:css/app/routes/app_pages.dart';
 import 'package:expandable/expandable.dart';
@@ -17,13 +12,6 @@ class StartController extends GetxController {
   static StartController get instance => Get.find();
   late Worker _statusEverWorker;
 
-  final surveyLibraryController = SurveyLibraryController.instance;
-  final surveyAdminOfficeController = SurveyAdminOfficeController.instance;
-  final surveySecurityOfficeController =
-      SurveySecurityOfficeController.instance;
-  final surveyRegistrarOfficeController =
-      SurveyRegistrarOfficeController.instance;
-  final surveyCashierOfficeController = SurveyCashierOfficeController.instance;
   final _status = UserStartStatus.initial.obs;
 
   final userTypeSelected = ''.obs;
@@ -56,6 +44,12 @@ class StartController extends GetxController {
     _monitorStartFormStatus();
   }
 
+  @override
+  void onClose() {
+    _statusEverWorker.dispose();
+    super.onClose();
+  }
+
   void resetUserData() {
     userTypeSelected.value = '';
     serviceSelected.value = '';
@@ -86,36 +80,11 @@ class StartController extends GetxController {
             Get.toNamed(AppPages.GENERATED_QR,
                 arguments: currentUserData.value);
 
-            // if (serviceSelected.value == 'Library') {
-            //   surveyLibraryController.userId.value = userId.value;
-            //   Get.toNamed(AppPages.SURVEY_LIBRARY);
-            // } else if (serviceSelected.value == 'Admin Office') {
-            //   surveyAdminOfficeController.userId.value =
-            //       '${_contact.value}_Admin_Office';
-            //   Get.toNamed(AppPages.SURVEY_ADMIN_OFFICE);
-            // } else if (serviceSelected.value == 'Security Office') {
-            //   surveySecurityOfficeController.userId.value =
-            //       '${_contact.value}_Security_Office';
-            //   Get.toNamed(AppPages.SURVEY_SECURITY_OFFICE);
-            // } else if (serviceSelected.value == 'Registrar') {
-            //   surveyRegistrarOfficeController.userId.value = userId.value;
-            //   Get.toNamed(AppPages.SURVEY_REGISTRAR_OFFICE);
-            // } else if (serviceSelected.value == 'Cashier') {
-            //   surveyCashierOfficeController.userId.value = userId.value;
-            //   Get.toNamed(AppPages.SURVEY_CASHIER);
-            // }
             break;
         }
       },
     );
   }
-
-  // void updateSelectedUserType(String selectedType) {
-  //   userTypeSelected.value = selectedType;
-  //   update();
-
-  //   MyLogger.printInfo(currentState());
-  // }
 
   void setNameValue(String name) {
     _name.value = name;
@@ -196,7 +165,6 @@ class StartController extends GetxController {
     } else {
       userId.value =
           '${_name.value.removeAllWhitespace}_${_contact.value}_${serviceSelected.value.removeAllWhitespace}';
-      final surveyExist = await UserRepository.getSurvey(userId.value);
 
       final userData = UserModel(
           uid: userId.value,
@@ -206,8 +174,7 @@ class StartController extends GetxController {
           userType: userTypeSelected.value,
           answered: false,
           service: serviceSelected.value,
-          createdAt:
-              surveyExist == null ? DateTime.now() : surveyExist.createdAt,
+          createdAt: DateTime.now(),
           updatedAt: DateTime.now());
       currentUserData.value = await UserRepository.createUserToSurvey(userData);
       _status.value = UserStartStatus.submitted;

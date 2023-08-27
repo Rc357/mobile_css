@@ -1,14 +1,12 @@
 import 'package:css/app/helpers/image_path_helper.dart';
-import 'package:css/app/modules/login/controller.dart';
+
 import 'package:css/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class SubmittedView extends StatelessWidget {
-  SubmittedView({super.key});
-
-  final startController = StartController.instance;
+  const SubmittedView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -85,19 +83,18 @@ class SubmittedView extends StatelessWidget {
                                 Center(
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      startController.resetUserData();
-                                      Get.toNamed(AppPages.START);
+                                      Get.toNamed(AppPages.OFFICE_DASHBOARD);
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.black,
                                         foregroundColor: Colors.white,
                                         shape: const StadiumBorder()),
-                                    child: SizedBox(
+                                    child: const SizedBox(
                                       width: 200,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        children: const [
+                                        children: [
                                           Text('Back Home'),
                                         ],
                                       ),

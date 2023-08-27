@@ -1,4 +1,4 @@
-import 'package:css/app/modules/login/controller.dart';
+import 'package:css/app/modules/create_user/controller/controller.dart';
 import 'package:get/instance_manager.dart';
 
 class StartBinding implements Bindings {

@@ -20,7 +20,7 @@ class SplashController extends GetxController {
       if (ConstantApp.userType == 'user') {
         Get.toNamed(AppPages.START);
       } else {
-        Get.toNamed(AppPages.QR_SCANNER_LOGIN);
+        Get.toNamed(AppPages.OFFICE_DASHBOARD);
       }
       myLogger.i("Splash Loaded");
     });

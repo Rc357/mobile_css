@@ -153,8 +153,11 @@ class GeneratedQrView extends GetView<GeneratedQrController> {
                               ),
                               Screenshot(
                                 controller: controller.screenshotController,
-                                child: QRWidget(
-                                  data: controller.currentUserData.reference,
+                                child: Container(
+                                  color: Colors.white,
+                                  child: QRWidget(
+                                    data: controller.currentUserData.reference,
+                                  ),
                                 ),
                               ),
                               const Text(

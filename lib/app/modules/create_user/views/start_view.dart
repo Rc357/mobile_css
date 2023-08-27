@@ -1,12 +1,12 @@
-import 'package:css/app/modules/login/controller.dart';
-import 'package:css/app/modules/login/widgets/text_field.dart';
+import 'package:css/app/modules/create_user/controller/controller.dart';
+import 'package:css/app/modules/create_user/widgets/text_field.dart';
 import 'package:css/app/modules/widgets/loading_overlay_widget.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-part 'widgets/select_services.dart';
-part 'widgets/type_of_user.dart';
+part '../widgets/select_services.dart';
+part '../widgets/type_of_user.dart';
 
 class StartView extends GetView<StartController> {
   const StartView({super.key});

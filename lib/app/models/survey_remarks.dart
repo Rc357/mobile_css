@@ -3,20 +3,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class SurveyRemarksModel {
   static const ID = 'id';
   static const REMARKS = 'remarks';
-  static const REFERENCE = 'reference';
+  static const REFERENCE_USER = 'referenceUser';
+  static const OFFICE_NAME = 'officeName';
   static const CREATED_AT = 'created_at';
   static const UPDATED_AT = 'updated_at';
 
   final String id;
   final String remarks;
-  final String reference;
+  final String referenceUser;
+  final String officeName;
   final DateTime createdAt;
   final DateTime updatedAt;
 
   SurveyRemarksModel({
     required this.id,
     required this.remarks,
-    required this.reference,
+    required this.referenceUser,
+    required this.officeName,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -25,7 +28,8 @@ class SurveyRemarksModel {
     return <String, dynamic>{
       ID: id,
       REMARKS: remarks,
-      REFERENCE: reference,
+      REFERENCE_USER: referenceUser,
+      OFFICE_NAME: officeName,
       CREATED_AT: FieldValue.serverTimestamp(),
       UPDATED_AT: FieldValue.serverTimestamp(),
     };
@@ -35,7 +39,8 @@ class SurveyRemarksModel {
     return SurveyRemarksModel(
       id: map[ID] as String,
       remarks: map[REMARKS] as String,
-      reference: map[REFERENCE] as String,
+      referenceUser: map[REFERENCE_USER] as String,
+      officeName: map[OFFICE_NAME] as String,
       createdAt: (map[CREATED_AT] as Timestamp).toDate(),
       updatedAt: (map[UPDATED_AT] as Timestamp).toDate(),
     );

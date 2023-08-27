@@ -1,7 +1,7 @@
-part of '../start_view.dart';
+part of '../views/start_view.dart';
 
-class TypeOfUser extends StatelessWidget {
-  TypeOfUser({super.key});
+class SelectServices extends StatelessWidget {
+  SelectServices({super.key});
 
   final startController = StartController.instance;
 
@@ -12,7 +12,7 @@ class TypeOfUser extends StatelessWidget {
         children: [
           ScrollOnExpand(
             child: ExpandablePanel(
-              controller: startController.expandableController.value,
+              controller: startController.expandableController2.value,
               theme: const ExpandableThemeData(
                 hasIcon: false,
               ),
@@ -30,13 +30,13 @@ class TypeOfUser extends StatelessWidget {
                       title: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Type of User: ${startController.userTypeSelected.value}',
+                          'Select Service: ${startController.serviceSelected.value}',
                           style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
                       ),
-                      trailing: startController.isUserExpanded.value
+                      trailing: startController.isServiceExpanded.value
                           ? const Icon(
                               Icons.keyboard_arrow_down,
                               size: 30,
@@ -48,7 +48,7 @@ class TypeOfUser extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    startController.changeExpandableStatus();
+                    startController.changeExpandableStatus2();
                   },
                 ),
               ),
@@ -72,10 +72,11 @@ class TypeOfUser extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          checkBoxBuild('Student', 0),
-                          checkBoxBuild('Alumni', 1),
-                          checkBoxBuild('Parent', 2),
-                          checkBoxBuild('Guest', 3),
+                          checkBoxBuildService('Library', 0),
+                          checkBoxBuildService('Admin Office', 1),
+                          checkBoxBuildService('Security Office', 2),
+                          checkBoxBuildService('Registrar', 3),
+                          checkBoxBuildService('Cashier', 4),
                           const SizedBox(
                             height: 20,
                           ),
@@ -99,10 +100,10 @@ class TypeOfUser extends StatelessWidget {
     );
   }
 
-  Widget checkBoxBuild(String label, int index) {
+  Widget checkBoxBuildService(String label, int index) {
     return Obx(
       () => Container(
-        color: startController.ifCurrentlySelected(index)
+        color: startController.ifCurrentlySelectedService(index)
             ? Colors.blue.shade100
             : Colors.transparent,
         child: Column(
@@ -110,7 +111,7 @@ class TypeOfUser extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 5.0, right: 5),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     label,
@@ -120,14 +121,14 @@ class TypeOfUser extends StatelessWidget {
                     scale: .7,
                     child: Checkbox(
                         activeColor: Colors.blue.shade400,
-                        value: startController.checkedValueUserType[index],
+                        value: startController.checkedValueService[index],
                         onChanged: (value) {
                           for (int x = 0;
-                              x < startController.checkedValueUserType.length;
+                              x < startController.checkedValueService.length;
                               x++) {
-                            startController.changeCheckUserType(x);
+                            startController.changeCheckService(x);
                           }
-                          startController.updateSelectedUser(
+                          startController.updateSelectedService(
                               index, value, label);
                         }),
                   ),

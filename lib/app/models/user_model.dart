@@ -60,4 +60,19 @@ class UserModel {
       updatedAt: (map[UPDATED_AT] as Timestamp).toDate(),
     );
   }
+
+  factory UserModel.fromDocument(DocumentSnapshot documentSnapshot) {
+    final map = documentSnapshot.data() as Map<String, dynamic>;
+    return UserModel(
+      uid: map[UID] as String,
+      name: map[NAME] as String,
+      reference: map[REFERENCE] as String,
+      contact: map[CONTACT] as String,
+      userType: map[USER_TYPE] as String,
+      answered: map[ANSWERED] as bool,
+      service: map[SERVICE] as String,
+      createdAt: (map[CREATED_AT] as Timestamp).toDate(),
+      updatedAt: (map[UPDATED_AT] as Timestamp).toDate(),
+    );
+  }
 }

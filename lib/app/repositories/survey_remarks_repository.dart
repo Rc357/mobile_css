@@ -6,8 +6,17 @@ class SurveyRemarksRepository {
 
   static Future<void> createSurveyRemarks(SurveyRemarksModel remarks) async {
     try {
-      final docRef = firestore.collection(_surveyRemarks).doc(remarks.id);
-      await docRef.set(remarks.toMap());
+      final docRef = firestore.collection(_surveyRemarks).doc();
+      final remarksFinal = SurveyRemarksModel(
+        id: docRef.id,
+        remarks: remarks.remarks,
+        referenceUser: remarks.referenceUser,
+        officeName: remarks.officeName,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      await docRef.set(remarksFinal.toMap());
     } catch (_) {
       rethrow;
     }

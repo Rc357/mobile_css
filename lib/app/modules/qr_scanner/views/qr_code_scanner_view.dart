@@ -37,13 +37,13 @@ class _QRScanLoginViewState extends State<QRScanLoginView> {
       () => qRScanLoginController.isLoading
           ? Center(
               child: LoadingBouncingGrid.circle(
-                  backgroundColor: Colors.pink.shade200,
+                  backgroundColor: Colors.blue.shade200,
                   duration: const Duration(milliseconds: 500)),
             )
           : Scaffold(
               appBar: AppBar(
                 title: const Text('QR Login'),
-                backgroundColor: const Color(0xFFCD5E77),
+                backgroundColor: Colors.blue,
                 centerTitle: true,
                 automaticallyImplyLeading: true,
                 elevation: 0,
@@ -62,7 +62,7 @@ class _QRScanLoginViewState extends State<QRScanLoginView> {
                         await controller?.toggleFlash();
                         setState(() {});
                       },
-                      backgroundColor: Colors.pink.shade400.withOpacity(.4),
+                      backgroundColor: Colors.blue.shade400.withOpacity(.4),
                       child: const Icon(
                         Icons.flashlight_on,
                         color: Colors.black,
@@ -74,7 +74,7 @@ class _QRScanLoginViewState extends State<QRScanLoginView> {
                         await controller?.flipCamera();
                         setState(() {});
                       },
-                      backgroundColor: Colors.pink.shade400.withOpacity(.4),
+                      backgroundColor: Colors.blue.shade400.withOpacity(.4),
                       child: FutureBuilder(
                         future: controller?.getFlashStatus(),
                         builder: (context, snapshot) {
@@ -121,7 +121,7 @@ class _QRScanLoginViewState extends State<QRScanLoginView> {
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
+          borderColor: const Color.fromARGB(255, 56, 2, 250),
           borderRadius: 10,
           borderLength: 20,
           borderWidth: 10,

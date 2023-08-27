@@ -1,4 +1,13 @@
-enum SurveyEnum {
+enum TwoPointsCaseEnum {
+  agree('Agree'),
+  disagree('Disagree'),
+  unknown('Unknown');
+
+  const TwoPointsCaseEnum(this.description);
+  final String description;
+}
+
+enum FivePointsCaseEnum {
   excellent('Excellent'),
   verySatisfactory('Very Satisfactory'),
   satisfactory('Satisfactory'),
@@ -6,6 +15,6 @@ enum SurveyEnum {
   poor('Poor'),
   unknown('Unknown');
 
-  const SurveyEnum(this.description);
+  const FivePointsCaseEnum(this.description);
   final String description;
 }

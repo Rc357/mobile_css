@@ -1,5 +1,8 @@
+import 'package:get/get_navigation/get_navigation.dart';
+
 import 'package:css/app/modules/generated_qr/bindings/generated_qr_binding.dart';
 import 'package:css/app/modules/generated_qr/views/generated_qr_view.dart';
+import 'package:css/app/modules/office_dashboard/office_dashboard.dart';
 import 'package:css/app/modules/qr_scanner/bindings/qr_code_scanner_binding.dart';
 import 'package:css/app/modules/qr_scanner/views/qr_code_scanner_view.dart';
 import 'package:css/app/modules/survey/submitted_view.dart';
@@ -13,12 +16,9 @@ import 'package:css/app/modules/survey/survey_registrar/bindings/survey_binding.
 import 'package:css/app/modules/survey/survey_registrar/views/survey_view.dart';
 import 'package:css/app/modules/survey/survey_security_office/bindings/survey_binding.dart';
 import 'package:css/app/modules/survey/survey_security_office/views/survey_view.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import '../modules/home/bindings/binding.dart';
-import '../modules/home/views/home_view.dart';
-import '../modules/login/binding.dart';
-import '../modules/login/start_view.dart';
-import '../modules/login/student/start_student_view.dart';
+
+import '../modules/create_user/bindings/binding.dart';
+import '../modules/create_user/views/start_view.dart';
 import '../modules/splash/binding/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 
@@ -39,6 +39,7 @@ class AppPages {
   static const SURVEY_SUBMITTED = Routes.SURVEY_SUBMMITED;
   static const GENERATED_QR = Routes.GENERATED_QR;
   static const QR_SCANNER_LOGIN = Routes.QR_SCANNER_LOGIN;
+  static const OFFICE_DASHBOARD = Routes.OFFICE_DASHBOARD;
 
   static final routes = [
     GetPage(
@@ -46,24 +47,14 @@ class AppPages {
       page: () => const SplashView(),
       binding: SplashBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.HOME,
-    //   page: () => HomeView(),
-    //   binding: HomeBinding(),
-    // ),
     GetPage(
       name: _Paths.START,
       page: () => const StartView(),
       binding: StartBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.START_STUDENT,
-    //   page: () => const StartStudentView(),
-    //   binding: StartBinding(),
-    // ),
     GetPage(
       name: _Paths.SURVEY_LIBRARY,
-      page: () => SurveyLibraryView(),
+      page: () => const SurveyLibraryView(),
       binding: SurveyLibraryBinding(),
     ),
     GetPage(
@@ -99,6 +90,10 @@ class AppPages {
       name: _Paths.GENERATED_QR,
       page: () => const GeneratedQrView(),
       binding: GeneratedQrBinding(),
+    ),
+    GetPage(
+      name: _Paths.OFFICE_DASHBOARD,
+      page: () => const OfficeDashboardView(),
     ),
   ];
 }

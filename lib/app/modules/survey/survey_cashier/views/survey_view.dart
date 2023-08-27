@@ -7,14 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class SurveyCashierOfficeView extends StatelessWidget {
+class SurveyCashierOfficeView extends GetView<SurveyCashierOfficeController> {
   SurveyCashierOfficeView({super.key});
-  final surveyController = SurveyCashierOfficeController.instance;
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => surveyController.isLoading,
+      onWillPop: () async => controller.isLoading,
       child: Stack(
         children: [
           Scaffold(
@@ -66,82 +65,86 @@ class SurveyCashierOfficeView extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    'Office personnel report for work on time and are available during office hours.',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  SurveySizeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      surveyController.setQuestion1Value(value);
-                                    },
-                                    name: 'reg1',
-                                    number: 1,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Text(
-                                    'Upholds the sanctity and confidentially of files or records.',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  SurveySizeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      surveyController.setQuestion2Value(value);
-                                    },
-                                    name: 'reg2',
-                                    number: 2,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Text(
-                                    'With organized record keeping clean and conducive workplace.',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  SurveySizeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      surveyController.setQuestion3Value(value);
-                                    },
-                                    name: 'reg3',
-                                    number: 3,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Text(
-                                    'Provides comfortable waiting area.',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  SurveySizeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      surveyController.setQuestion4Value(value);
-                                    },
-                                    name: 'reg4',
-                                    number: 4,
+                                  Obx(
+                                    () => controller.cashierQuestions.isEmpty
+                                        ? const Center(
+                                            child: Padding(
+                                            padding: EdgeInsets.all(25.0),
+                                            child: Text('No QUESTIONS Yet'),
+                                          ))
+                                        : ListView.separated(
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            primary: false,
+                                            shrinkWrap: true,
+                                            separatorBuilder:
+                                                (context, index) =>
+                                                    const SizedBox(height: 10),
+                                            itemCount: controller
+                                                .cashierQuestions.length,
+                                            itemBuilder: (context, index) {
+                                              final question = controller
+                                                  .cashierQuestions[index];
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    question.question,
+                                                    style: const TextStyle(
+                                                        color: Colors.black),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  if (question.type ==
+                                                      'Two Points Case')
+                                                    Column(
+                                                      children: [
+                                                        TwoPointsSurveyDropdown(
+                                                          onChanged: (value) {
+                                                            if (value == null) {
+                                                              return;
+                                                            }
+                                                            controller
+                                                                .addLibraryAnswerTwoCase(
+                                                                    question,
+                                                                    value);
+                                                          },
+                                                          name: 'libQ$index',
+                                                          number: index + 1,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  if (question.type ==
+                                                      'Five Points Case')
+                                                    Column(
+                                                      children: [
+                                                        FivePointsSurveyDropdown(
+                                                          onChanged: (value) {
+                                                            if (value == null) {
+                                                              return;
+                                                            }
+                                                            controller
+                                                                .addLibraryAnswerFiveCase(
+                                                                    question,
+                                                                    value);
+                                                          },
+                                                          name: 'libQ$index',
+                                                          number: index + 1,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                      ],
+                                                    )
+                                                ],
+                                              );
+                                            },
+                                          ),
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -156,8 +159,8 @@ class SurveyCashierOfficeView extends StatelessWidget {
                                   CustomTextFormField(
                                     name: 'optional',
                                     label: 'Optional'.tr,
-                                    onChanged: (value) => surveyController
-                                        .setOptionalValue(value!),
+                                    onChanged: (value) =>
+                                        controller.setOptionalValue(value!),
                                     textCapitalization:
                                         TextCapitalization.words,
                                   ),
@@ -167,18 +170,18 @@ class SurveyCashierOfficeView extends StatelessWidget {
                                   Center(
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        surveyController.submitData();
+                                        controller.submitData();
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.black,
                                           foregroundColor: Colors.white,
                                           shape: const StadiumBorder()),
-                                      child: SizedBox(
+                                      child: const SizedBox(
                                         width: 200,
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
+                                          children: [
                                             Text('Submit'),
                                           ],
                                         ),
@@ -202,5 +205,5 @@ class SurveyCashierOfficeView extends StatelessWidget {
   }
 
   Obx _buildLoadingOverlay() =>
-      Obx(() => LoadingOverlay(isLoading: surveyController.isLoading));
+      Obx(() => LoadingOverlay(isLoading: controller.isLoading));
 }

@@ -24,18 +24,25 @@ class UserRepository {
     }
   }
 
-  static Future<UserModel?> getSurvey(String uid) async {
+  static Future<UserModel> getUserData(String uid) async {
+    final collectionRef = firestore.collection(_userData);
+    final query = collectionRef
+        .where('reference', isEqualTo: uid)
+        .where('answered', isEqualTo: false);
+
+    final result = await query.get();
+    final user = result.docs.map((doc) {
+      final map = doc.data();
+      return UserModel.fromMap(map);
+    }).toList();
+    return user[0];
+  }
+
+  static Future<UserModel?> updateUserAlreadyAnswer(UserModel user) async {
     try {
-      final docRef = firestore.collection(_userData).doc(uid);
-      final doc = await docRef.get();
-
-      if (!doc.exists) {
-        return null;
-      }
-
-      final map = doc.data() as Map<String, dynamic>;
-      final feedback = UserModel.fromMap(map);
-      return feedback;
+      final docRef = firestore.collection(_userData).doc(user.reference);
+      await docRef.set(user.toMap());
+      return user;
     } catch (_) {
       rethrow;
     }

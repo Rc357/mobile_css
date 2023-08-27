@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "676593282180",
-    "project_id": "mobile-web-css",
-    "storage_bucket": "mobile-web-css.appspot.com"
+    "project_number": "626750520968",
+    "project_id": "mobilecss-f5a85",
+    "storage_bucket": "mobilecss-f5a85.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:676593282180:android:9c92e15638f8a469e026d1",
+        "mobilesdk_app_id": "1:626750520968:android:bf08fed03b46c44917e93d",
         "android_client_info": {
           "package_name": "com.example.css"
         }
       },
       "oauth_client": [
         {
-          "client_id": "676593282180-qt3jvbvqusqacsqle1ektng5e7u3jpis.apps.googleusercontent.com",
+          "client_id": "626750520968-om0a12q7889s5qmg05bd8er392oaj1e2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD1SfTYFpFwploS28rpG6TGnXQuuTeu3Qc"
+          "current_key": "AIzaSyD7u3hfx-LLd7UbW8VbyVW4vL_N2L6tbBA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "676593282180-qt3jvbvqusqacsqle1ektng5e7u3jpis.apps.googleusercontent.com",
+              "client_id": "626750520968-om0a12q7889s5qmg05bd8er392oaj1e2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

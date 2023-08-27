@@ -7,14 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class SurveyAdminOfficeView extends StatelessWidget {
-  SurveyAdminOfficeView({super.key});
-  final surveyAdminOfficeController = SurveyAdminOfficeController.instance;
+class SurveyAdminOfficeView extends GetView<SurveyAdminOfficeController> {
+  const SurveyAdminOfficeView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => surveyAdminOfficeController.isLoading,
+      onWillPop: () async => controller.isLoading,
       child: Stack(
         children: [
           Scaffold(
@@ -66,44 +65,87 @@ class SurveyAdminOfficeView extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    'Courtesy, Politeness and Professionalism of the employee.',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  SurveySizeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      surveyAdminOfficeController
-                                          .setQuestion1Value(value);
-                                    },
-                                    name: 'admin1',
-                                    number: 1,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Text(
-                                    'Responsiveness and Promptness of Service.',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  SurveySizeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      surveyAdminOfficeController
-                                          .setQuestion2Value(value);
-                                    },
-                                    name: 'admin2',
-                                    number: 2,
+                                  Obx(
+                                    () => controller
+                                            .adminsOfficeQuestions.isEmpty
+                                        ? const Center(
+                                            child: Padding(
+                                            padding: EdgeInsets.all(25.0),
+                                            child: Text('No QUESTIONS Yet'),
+                                          ))
+                                        : ListView.separated(
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            primary: false,
+                                            shrinkWrap: true,
+                                            separatorBuilder:
+                                                (context, index) =>
+                                                    const SizedBox(height: 10),
+                                            itemCount: controller
+                                                .adminsOfficeQuestions.length,
+                                            itemBuilder: (context, index) {
+                                              final question = controller
+                                                  .adminsOfficeQuestions[index];
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    question.question,
+                                                    style: const TextStyle(
+                                                        color: Colors.black),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  if (question.type ==
+                                                      'Two Points Case')
+                                                    Column(
+                                                      children: [
+                                                        TwoPointsSurveyDropdown(
+                                                          onChanged: (value) {
+                                                            if (value == null) {
+                                                              return;
+                                                            }
+                                                            controller
+                                                                .addLibraryAnswerTwoCase(
+                                                                    question,
+                                                                    value);
+                                                          },
+                                                          name: 'libQ$index',
+                                                          number: index + 1,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  if (question.type ==
+                                                      'Five Points Case')
+                                                    Column(
+                                                      children: [
+                                                        FivePointsSurveyDropdown(
+                                                          onChanged: (value) {
+                                                            if (value == null) {
+                                                              return;
+                                                            }
+                                                            controller
+                                                                .addLibraryAnswerFiveCase(
+                                                                    question,
+                                                                    value);
+                                                          },
+                                                          name: 'libQ$index',
+                                                          number: index + 1,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                      ],
+                                                    )
+                                                ],
+                                              );
+                                            },
+                                          ),
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -119,8 +161,7 @@ class SurveyAdminOfficeView extends StatelessWidget {
                                     name: 'optional',
                                     label: 'Optional'.tr,
                                     onChanged: (value) =>
-                                        surveyAdminOfficeController
-                                            .setOptionalValue(value!),
+                                        controller.setOptionalValue(value!),
                                     textCapitalization:
                                         TextCapitalization.words,
                                   ),
@@ -130,8 +171,7 @@ class SurveyAdminOfficeView extends StatelessWidget {
                                   Center(
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        surveyAdminOfficeController
-                                            .submitData();
+                                        controller.submitData();
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.black,
@@ -165,6 +205,6 @@ class SurveyAdminOfficeView extends StatelessWidget {
     );
   }
 
-  Obx _buildLoadingOverlay() => Obx(
-      () => LoadingOverlay(isLoading: surveyAdminOfficeController.isLoading));
+  Obx _buildLoadingOverlay() =>
+      Obx(() => LoadingOverlay(isLoading: controller.isLoading));
 }

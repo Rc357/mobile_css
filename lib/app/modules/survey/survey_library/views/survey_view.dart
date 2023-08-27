@@ -7,14 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class SurveyLibraryView extends StatelessWidget {
-  SurveyLibraryView({super.key});
-  final surveyController = SurveyLibraryController.instance;
+class SurveyLibraryView extends GetView<SurveyLibraryController> {
+  const SurveyLibraryView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => surveyController.isLoading,
+      onWillPop: () async => controller.isLoading,
       child: Stack(
         children: [
           Scaffold(
@@ -33,17 +32,30 @@ class SurveyLibraryView extends StatelessWidget {
                             height: .2 * MediaQuery.of(context).size.height,
                           ),
                         ),
-                        Positioned(
-                          top: .12 * MediaQuery.of(context).size.height,
-                          left: .12 * MediaQuery.of(context).size.height,
-                          child: const Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'You will now be evaluating the Library.',
-                                textAlign: TextAlign.center,
+                        Positioned.fill(
+                          top: .1 * MediaQuery.of(context).size.height,
+                          left: .11 * MediaQuery.of(context).size.height,
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Welcome Back!',
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              )),
+                                    fontSize: 24,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'You will now be evaluating the Library.',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -62,130 +74,128 @@ class SurveyLibraryView extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 40, horizontal: 20),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Up to date and relevant resources',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  SurveySizeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      surveyController.setQuestion1Value(value);
-                                    },
-                                    name: 'libQ1',
-                                    number: 1,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Text(
-                                    'Access to online resources',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  SurveySizeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      surveyController.setQuestion2Value(value);
-                                    },
-                                    name: 'libQ2',
-                                    number: 2,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Text(
-                                    'Quality service library staff',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  SurveySizeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      surveyController.setQuestion3Value(value);
-                                    },
-                                    name: 'libQ3',
-                                    number: 3,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Text(
-                                    'Adequate service hours',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  SurveySizeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      surveyController.setQuestion4Value(value);
-                                    },
-                                    name: 'libQ4',
-                                    number: 4,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Text(
-                                    'Remarks/Suggestions',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  CustomTextFormField(
-                                    name: 'optional',
-                                    label: 'Optional'.tr,
-                                    onChanged: (value) => surveyController
-                                        .setOptionalValue(value!),
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                  ),
-                                  const SizedBox(
-                                    height: 25,
-                                  ),
-                                  Center(
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        surveyController.submitData();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.black,
-                                          foregroundColor: Colors.white,
-                                          shape: const StadiumBorder()),
-                                      child: SizedBox(
-                                        width: 200,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: const [
-                                            Text('Submit'),
-                                          ],
-                                        ),
+                              Obx(
+                                () => controller.libraryQuestions.isEmpty
+                                    ? const Center(
+                                        child: Padding(
+                                        padding: EdgeInsets.all(25.0),
+                                        child: Text('No QUESTIONS Yet'),
+                                      ))
+                                    : ListView.separated(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        primary: false,
+                                        shrinkWrap: true,
+                                        separatorBuilder: (context, index) =>
+                                            const SizedBox(height: 10),
+                                        itemCount:
+                                            controller.libraryQuestions.length,
+                                        itemBuilder: (context, index) {
+                                          final question = controller
+                                              .libraryQuestions[index];
+                                          return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                question.question,
+                                                style: const TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              if (question.type ==
+                                                  'Two Points Case')
+                                                Column(
+                                                  children: [
+                                                    TwoPointsSurveyDropdown(
+                                                      onChanged: (value) {
+                                                        if (value == null) {
+                                                          return;
+                                                        }
+                                                        controller
+                                                            .addLibraryAnswerTwoCase(
+                                                                question,
+                                                                value);
+                                                      },
+                                                      name: 'libQ$index',
+                                                      number: index + 1,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                  ],
+                                                ),
+                                              if (question.type ==
+                                                  'Five Points Case')
+                                                Column(
+                                                  children: [
+                                                    FivePointsSurveyDropdown(
+                                                      onChanged: (value) {
+                                                        if (value == null) {
+                                                          return;
+                                                        }
+                                                        controller
+                                                            .addLibraryAnswerFiveCase(
+                                                                question,
+                                                                value);
+                                                      },
+                                                      name: 'libQ$index',
+                                                      number: index + 1,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                  ],
+                                                )
+                                            ],
+                                          );
+                                        },
                                       ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const Text(
+                                'Remarks/Suggestions',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              CustomTextFormField(
+                                name: 'optional',
+                                label: 'Optional'.tr,
+                                onChanged: (value) =>
+                                    controller.setOptionalValue(value!),
+                                textCapitalization: TextCapitalization.words,
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              Center(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    controller.submitData();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.black,
+                                      foregroundColor: Colors.white,
+                                      shape: const StadiumBorder()),
+                                  child: const SizedBox(
+                                    width: 200,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text('Submit'),
+                                      ],
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
@@ -202,5 +212,5 @@ class SurveyLibraryView extends StatelessWidget {
   }
 
   Obx _buildLoadingOverlay() =>
-      Obx(() => LoadingOverlay(isLoading: surveyController.isLoading));
+      Obx(() => LoadingOverlay(isLoading: controller.isLoading));
 }
