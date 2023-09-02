@@ -11,15 +11,15 @@ class OfficeDashboardView extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/bg_home.png'),
-                fit: BoxFit.fill)),
+                image: AssetImage('assets/images/bg2.jpg'),
+                fit: BoxFit.fitHeight)),
         child: Column(
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * .15,
             ),
             const Text(
-              'Office Scanner',
+              'Office QR Scanner',
               style: TextStyle(
                   fontSize: 26,
                   color: Colors.white,
@@ -36,10 +36,19 @@ class OfficeDashboardView extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
-                  elevation: 0,
-                  minimumSize: const Size(150, 50),
+                  elevation: 20,
+                  minimumSize: const Size(150, 100),
+                  shadowColor: const Color(0xfff1044B4),
                 ),
-                child: const Text('Scan Visitor QR Code'),
+                child: const Column(
+                  children: [
+                    Icon(Icons.qr_code_scanner_outlined),
+                    Text(
+                      'Scan Office QR Code',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

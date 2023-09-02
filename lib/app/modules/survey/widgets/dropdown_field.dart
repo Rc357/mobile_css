@@ -70,8 +70,8 @@ class TwoPointsSurveyDropdown extends StatelessWidget {
   final int number;
 
   final surveyAnswer = [
-    TwoPointsCaseEnum.agree,
-    TwoPointsCaseEnum.disagree,
+    TwoPointsCaseEnum.yes,
+    TwoPointsCaseEnum.no,
   ];
 
   @override

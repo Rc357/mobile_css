@@ -18,7 +18,7 @@ class SurveyLibraryView extends GetView<SurveyLibraryController> {
         children: [
           Scaffold(
             body: Container(
-              color: const Color(0xfff0099cb),
+              color: const Color(0xfff1044B4),
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
                 child: Column(
@@ -35,18 +35,18 @@ class SurveyLibraryView extends GetView<SurveyLibraryController> {
                         Positioned.fill(
                           top: .1 * MediaQuery.of(context).size.height,
                           left: .11 * MediaQuery.of(context).size.height,
-                          child: const Column(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Welcome Back!',
+                                'Hello ${controller.userData.name},',
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 24,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
-                              Expanded(
+                              const Expanded(
                                 child: Text(
                                   'You will now be evaluating the Library.',
                                   textAlign: TextAlign.left,
@@ -60,19 +60,18 @@ class SurveyLibraryView extends GetView<SurveyLibraryController> {
                       ],
                     ),
                     Container(
-                        height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.grey,
                             ),
-                            color: const Color(0xffE3DCDC),
+                            color: Colors.white,
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20))),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 40, horizontal: 20),
+                              vertical: 10, horizontal: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -107,7 +106,7 @@ class SurveyLibraryView extends GetView<SurveyLibraryController> {
                                               const SizedBox(
                                                 height: 15,
                                               ),
-                                              if (question.type ==
+                                              if (question.type.description ==
                                                   'Two Points Case')
                                                 Column(
                                                   children: [
@@ -129,7 +128,7 @@ class SurveyLibraryView extends GetView<SurveyLibraryController> {
                                                     ),
                                                   ],
                                                 ),
-                                              if (question.type ==
+                                              if (question.type.description ==
                                                   'Five Points Case')
                                                 Column(
                                                   children: [

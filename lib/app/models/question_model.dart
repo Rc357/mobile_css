@@ -5,8 +5,8 @@ class QuestionModel {
   static const ID = 'questionId';
   static const QUESTION_NUMBER = 'questionNumber';
   static const QUESTION = 'question';
-  static const AGREE = 'agree';
-  static const DISAGREE = 'disagree';
+  static const YES = 'yes';
+  static const NO = 'no';
   static const EXCELlENT = 'excellent';
   static const VERY_SATISFACTORY = 'verySatisfactory';
   static const SATISFACTORY = 'satisfactory';
@@ -20,8 +20,8 @@ class QuestionModel {
   final String question;
   final int questionNumber;
   final QuestionTypeEnum type;
-  final int agree;
-  final int disagree;
+  final int yes;
+  final int no;
   final int excellent;
   final int verySatisfactory;
   final int satisfactory;
@@ -35,8 +35,8 @@ class QuestionModel {
     required this.question,
     required this.questionNumber,
     required this.type,
-    required this.agree,
-    required this.disagree,
+    required this.yes,
+    required this.no,
     required this.excellent,
     required this.verySatisfactory,
     required this.satisfactory,
@@ -52,8 +52,8 @@ class QuestionModel {
       QUESTION: question,
       QUESTION_NUMBER: questionNumber,
       TYPE: type.name,
-      AGREE: agree,
-      DISAGREE: disagree,
+      YES: yes,
+      NO: no,
       EXCELlENT: excellent,
       VERY_SATISFACTORY: verySatisfactory,
       SATISFACTORY: satisfactory,
@@ -70,8 +70,8 @@ class QuestionModel {
       question: map[QUESTION] as String,
       questionNumber: map[QUESTION_NUMBER] as int,
       type: QuestionTypeEnum.values.byName(map[TYPE] as String),
-      agree: map[AGREE] as int,
-      disagree: map[DISAGREE] as int,
+      yes: map[YES] as int,
+      no: map[NO] as int,
       excellent: map[EXCELlENT] as int,
       verySatisfactory: map[VERY_SATISFACTORY] as int,
       satisfactory: map[SATISFACTORY] as int,

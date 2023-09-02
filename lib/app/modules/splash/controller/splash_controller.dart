@@ -17,11 +17,12 @@ class SplashController extends GetxController {
 
   void _loadingTimer() {
     Timer(const Duration(seconds: 3), () {
-      if (ConstantApp.userType == 'user') {
-        Get.toNamed(AppPages.START);
-      } else {
-        Get.toNamed(AppPages.OFFICE_DASHBOARD);
-      }
+      // if (ConstantApp.userType == 'user') {
+      // Get.toNamed(AppPages.START);
+      // } else {
+      //   Get.toNamed(AppPages.OFFICE_DASHBOARD);
+      // }
+      Get.toNamed(AppPages.OFFICE_DASHBOARD);
       myLogger.i("Splash Loaded");
     });
   }

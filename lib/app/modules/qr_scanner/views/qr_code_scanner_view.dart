@@ -42,7 +42,7 @@ class _QRScanLoginViewState extends State<QRScanLoginView> {
             )
           : Scaffold(
               appBar: AppBar(
-                title: const Text('QR Login'),
+                title: const Text('Office QR Scanner'),
                 backgroundColor: Colors.blue,
                 centerTitle: true,
                 automaticallyImplyLeading: true,

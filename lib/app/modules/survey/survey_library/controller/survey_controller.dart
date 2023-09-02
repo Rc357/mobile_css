@@ -1,8 +1,9 @@
+import 'package:css/app/enum/offices_key_enum.dart';
 import 'package:css/app/enum/survey_enum.dart';
 import 'package:css/app/helpers/my_logger_helper.dart';
 import 'package:css/app/models/question_model.dart';
 import 'package:css/app/models/survey_remarks.dart';
-import 'package:css/app/models/user_model.dart';
+import 'package:css/app/models/user_library_model.dart';
 import 'package:css/app/repositories/questions_repository.dart';
 import 'package:css/app/repositories/survey_remarks_repository.dart';
 import 'package:css/app/repositories/user_repository.dart';
@@ -23,10 +24,11 @@ class SurveyLibraryController extends GetxController {
   final userType = ''.obs;
 
   final optional = ''.obs;
+  final officeName = 'questionsLibrary';
 
   final isLibraryExpanded = false.obs;
 
-  final userData = Get.arguments as UserModel;
+  final userData = Get.arguments as UserLibraryModel;
   final libraryQuestions = <QuestionModel>[].obs;
   final libraryQuestionsAnswers = <QuestionModel>[].obs;
 
@@ -65,7 +67,8 @@ class SurveyLibraryController extends GetxController {
             break;
           case SurveyLibraryStatus.submitted:
             MyLogger.printInfo(currentState());
-            Get.toNamed(AppPages.SURVEY_SUBMITTED);
+            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED,
+                arguments: OfficeQRData.library);
             break;
         }
       },
@@ -73,7 +76,6 @@ class SurveyLibraryController extends GetxController {
   }
 
   void getQuestionsList() async {
-    final officeName = 'questions${userData.service.removeAllWhitespace}';
     MyLogger.printInfo("GET QUESTION OFFICE NAME: $officeName");
     libraryQuestions.value = await QuestionsRepository.getQuestions(officeName);
     libraryQuestionsAnswers.clear();
@@ -93,13 +95,13 @@ class SurveyLibraryController extends GetxController {
       QuestionModel question, TwoPointsCaseEnum twoCase) {
     final userAnswer = Rxn<QuestionModel>();
 
-    if (twoCase == TwoPointsCaseEnum.agree) {
+    if (twoCase == TwoPointsCaseEnum.yes) {
       userAnswer.value = QuestionModel(
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree + 1,
-        disagree: question.disagree,
+        yes: question.yes + 1,
+        no: question.no,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory,
@@ -109,13 +111,13 @@ class SurveyLibraryController extends GetxController {
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
-    } else if (twoCase == TwoPointsCaseEnum.disagree) {
+    } else if (twoCase == TwoPointsCaseEnum.no) {
       userAnswer.value = QuestionModel(
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree + 1,
+        yes: question.yes,
+        no: question.no + 1,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory,
@@ -156,8 +158,8 @@ class SurveyLibraryController extends GetxController {
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree,
+        yes: question.yes,
+        no: question.no,
         excellent: question.excellent + 1,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory,
@@ -172,8 +174,8 @@ class SurveyLibraryController extends GetxController {
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree,
+        yes: question.yes,
+        no: question.no,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory + 1,
         satisfactory: question.satisfactory,
@@ -188,8 +190,8 @@ class SurveyLibraryController extends GetxController {
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree,
+        yes: question.yes,
+        no: question.no,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory + 1,
@@ -204,8 +206,8 @@ class SurveyLibraryController extends GetxController {
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree,
+        yes: question.yes,
+        no: question.no,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory,
@@ -220,8 +222,8 @@ class SurveyLibraryController extends GetxController {
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree,
+        yes: question.yes,
+        no: question.no,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory,
@@ -270,14 +272,13 @@ class SurveyLibraryController extends GetxController {
 
       _status.value = SurveyLibraryStatus.error;
     } else {
-      final officeName = 'questions${userData.service.removeAllWhitespace}';
       for (var answer in libraryQuestionsAnswers) {
         final answerToQuestion = QuestionModel(
           id: answer.id,
           questionNumber: answer.questionNumber,
           question: answer.question,
-          agree: answer.agree,
-          disagree: answer.disagree,
+          yes: answer.yes,
+          no: answer.no,
           excellent: answer.excellent,
           verySatisfactory: answer.verySatisfactory,
           satisfactory: answer.satisfactory,
@@ -295,25 +296,26 @@ class SurveyLibraryController extends GetxController {
         final remark = SurveyRemarksModel(
           id: '',
           remarks: optional.value,
-          referenceUser: userData.reference,
-          officeName: userData.service,
+          referenceUser: userData.uid,
+          officeName: OfficeQRData.library.name,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );
         await SurveyRemarksRepository.createSurveyRemarks(remark);
       }
 
-      final updatedUser = UserModel(
-          answered: true,
-          contact: userData.contact,
-          createdAt: userData.createdAt,
-          name: userData.name,
-          reference: userData.reference,
-          service: userData.service,
-          uid: userData.uid,
-          updatedAt: DateTime.now(),
-          userType: userData.userType);
-      UserRepository.updateUserAlreadyAnswer(updatedUser);
+      final updatedUser = UserLibraryModel(
+        uid: userData.uid,
+        name: userData.name,
+        contact: userData.contact,
+        course: userData.course,
+        gender: userData.gender,
+        userType: userData.userType,
+        answered: true,
+        createdAt: userData.createdAt,
+        updatedAt: DateTime.now(),
+      );
+      await UserRepository.updateUserLibraryAlreadyAnswer(updatedUser);
 
       _status.value = SurveyLibraryStatus.submitted;
     }

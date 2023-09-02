@@ -1,3 +1,5 @@
+import 'package:css/app/enum/offices_key_enum.dart';
+import 'package:css/app/models/user_security_office_model.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,7 +8,6 @@ import 'package:css/app/enum/survey_enum.dart';
 import 'package:css/app/helpers/my_logger_helper.dart';
 import 'package:css/app/models/question_model.dart';
 import 'package:css/app/models/survey_remarks.dart';
-import 'package:css/app/models/user_model.dart';
 import 'package:css/app/repositories/questions_repository.dart';
 import 'package:css/app/repositories/survey_remarks_repository.dart';
 import 'package:css/app/repositories/user_repository.dart';
@@ -23,22 +24,19 @@ class SurveySecurityOfficeController extends GetxController {
 
   final expandableController = ExpandableController().obs;
   final userType = ''.obs;
-  final question1 = FivePointsCaseEnum.unknown.obs;
-  final question2 = FivePointsCaseEnum.unknown.obs;
-  final question3 = FivePointsCaseEnum.unknown.obs;
-  final question4 = FivePointsCaseEnum.unknown.obs;
   final optional = ''.obs;
+  final officeName = 'questionsSecurityOffice';
 
   final isLibraryExpanded = false.obs;
 
-  final userData = Get.arguments as UserModel;
+  final userData = Get.arguments as UserSecurityOfficeModel;
   final securityOfficeQuestions = <QuestionModel>[].obs;
   final securityOfficeQuestionsAnswers = <QuestionModel>[].obs;
 
   bool get isLoading => _status.value == SurveySecurityOfficeStatus.loading;
 
   String currentState() =>
-      'SurveySecurityOfficeController(Status: ${_status.value}, Question1: ${question1.value}, Question2: ${question2.value}, Question3: ${question3.value}, Question4: ${question4.value}, Optional: ${optional.value} )';
+      'SurveySecurityOfficeController(Status: ${_status.value}, Optional: ${optional.value} )';
 
   @override
   void onInit() {
@@ -70,7 +68,8 @@ class SurveySecurityOfficeController extends GetxController {
             break;
           case SurveySecurityOfficeStatus.submitted:
             MyLogger.printInfo(currentState());
-            Get.toNamed(AppPages.SURVEY_SUBMITTED);
+            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED,
+                arguments: OfficeQRData.securityOffice);
             break;
         }
       },
@@ -78,7 +77,6 @@ class SurveySecurityOfficeController extends GetxController {
   }
 
   void getQuestionsList() async {
-    final officeName = 'questions${userData.service.removeAllWhitespace}';
     MyLogger.printInfo("GET QUESTION OFFICE NAME: $officeName");
     securityOfficeQuestions.value =
         await QuestionsRepository.getQuestions(officeName);
@@ -99,13 +97,13 @@ class SurveySecurityOfficeController extends GetxController {
       QuestionModel question, TwoPointsCaseEnum twoCase) {
     final userAnswer = Rxn<QuestionModel>();
 
-    if (twoCase == TwoPointsCaseEnum.agree) {
+    if (twoCase == TwoPointsCaseEnum.yes) {
       userAnswer.value = QuestionModel(
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree + 1,
-        disagree: question.disagree,
+        yes: question.yes + 1,
+        no: question.no,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory,
@@ -115,13 +113,13 @@ class SurveySecurityOfficeController extends GetxController {
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
-    } else if (twoCase == TwoPointsCaseEnum.disagree) {
+    } else if (twoCase == TwoPointsCaseEnum.no) {
       userAnswer.value = QuestionModel(
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree + 1,
+        yes: question.yes,
+        no: question.no + 1,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory,
@@ -162,8 +160,8 @@ class SurveySecurityOfficeController extends GetxController {
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree,
+        yes: question.yes,
+        no: question.no,
         excellent: question.excellent + 1,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory,
@@ -178,8 +176,8 @@ class SurveySecurityOfficeController extends GetxController {
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree,
+        yes: question.yes,
+        no: question.no,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory + 1,
         satisfactory: question.satisfactory,
@@ -194,8 +192,8 @@ class SurveySecurityOfficeController extends GetxController {
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree,
+        yes: question.yes,
+        no: question.no,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory + 1,
@@ -210,8 +208,8 @@ class SurveySecurityOfficeController extends GetxController {
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree,
+        yes: question.yes,
+        no: question.no,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory,
@@ -226,8 +224,8 @@ class SurveySecurityOfficeController extends GetxController {
         id: question.id,
         question: question.question,
         questionNumber: question.questionNumber,
-        agree: question.agree,
-        disagree: question.disagree,
+        yes: question.yes,
+        no: question.no,
         excellent: question.excellent,
         verySatisfactory: question.verySatisfactory,
         satisfactory: question.satisfactory,
@@ -277,14 +275,13 @@ class SurveySecurityOfficeController extends GetxController {
 
       _status.value = SurveySecurityOfficeStatus.error;
     } else {
-      final officeName = 'questions${userData.service.removeAllWhitespace}';
       for (var answer in securityOfficeQuestionsAnswers) {
         final answerToQuestion = QuestionModel(
           id: answer.id,
           questionNumber: answer.questionNumber,
           question: answer.question,
-          agree: answer.agree,
-          disagree: answer.disagree,
+          yes: answer.yes,
+          no: answer.no,
           excellent: answer.excellent,
           verySatisfactory: answer.verySatisfactory,
           satisfactory: answer.satisfactory,
@@ -302,25 +299,23 @@ class SurveySecurityOfficeController extends GetxController {
         final remark = SurveyRemarksModel(
           id: '',
           remarks: optional.value,
-          referenceUser: userData.reference,
-          officeName: userData.service,
+          referenceUser: userData.uid,
+          officeName: OfficeQRData.securityOffice.name,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );
         await SurveyRemarksRepository.createSurveyRemarks(remark);
       }
 
-      final updatedUser = UserModel(
+      final updatedUser = UserSecurityOfficeModel(
           answered: true,
-          contact: userData.contact,
           createdAt: userData.createdAt,
           name: userData.name,
-          reference: userData.reference,
-          service: userData.service,
           uid: userData.uid,
           updatedAt: DateTime.now(),
-          userType: userData.userType);
-      UserRepository.updateUserAlreadyAnswer(updatedUser);
+          userType: userData.userType,
+          address: userData.address);
+      UserRepository.updateUserSecurityOfficeAlreadyAnswer(updatedUser);
       _status.value = SurveySecurityOfficeStatus.submitted;
     }
   }

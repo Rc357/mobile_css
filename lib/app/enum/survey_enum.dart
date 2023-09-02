@@ -1,6 +1,6 @@
 enum TwoPointsCaseEnum {
-  agree('Agree'),
-  disagree('Disagree'),
+  yes('Yes'),
+  no('No'),
   unknown('Unknown');
 
   const TwoPointsCaseEnum(this.description);

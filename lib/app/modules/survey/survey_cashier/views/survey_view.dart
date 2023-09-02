@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class SurveyCashierOfficeView extends GetView<SurveyCashierOfficeController> {
-  SurveyCashierOfficeView({super.key});
+  const SurveyCashierOfficeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class SurveyCashierOfficeView extends GetView<SurveyCashierOfficeController> {
         children: [
           Scaffold(
             body: Container(
-              color: const Color(0xfff0099cb),
+              color: const Color(0xfff1044B4),
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
                 child: Column(
@@ -32,34 +32,46 @@ class SurveyCashierOfficeView extends GetView<SurveyCashierOfficeController> {
                             height: .2 * MediaQuery.of(context).size.height,
                           ),
                         ),
-                        Positioned(
-                          top: .12 * MediaQuery.of(context).size.height,
-                          left: .12 * MediaQuery.of(context).size.height,
-                          child: const Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "You will now be evaluating \nthe Cashier Office.",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              )),
+                        Positioned.fill(
+                          top: .1 * MediaQuery.of(context).size.height,
+                          left: .11 * MediaQuery.of(context).size.height,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Hello ${controller.userData.name},',
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const Expanded(
+                                child: Text(
+                                  'You will now be evaluating \nthe Cashier Office.',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                     Container(
-                        height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.grey,
                             ),
-                            color: const Color(0xffE3DCDC),
+                            color: Colors.white,
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20))),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 40, horizontal: 20),
+                              vertical: 10, horizontal: 20),
                           child: Column(
                             children: [
                               Column(
@@ -97,7 +109,8 @@ class SurveyCashierOfficeView extends GetView<SurveyCashierOfficeController> {
                                                   const SizedBox(
                                                     height: 15,
                                                   ),
-                                                  if (question.type ==
+                                                  if (question
+                                                          .type.description ==
                                                       'Two Points Case')
                                                     Column(
                                                       children: [
@@ -119,7 +132,8 @@ class SurveyCashierOfficeView extends GetView<SurveyCashierOfficeController> {
                                                         ),
                                                       ],
                                                     ),
-                                                  if (question.type ==
+                                                  if (question
+                                                          .type.description ==
                                                       'Five Points Case')
                                                     Column(
                                                       children: [

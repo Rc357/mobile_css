@@ -156,7 +156,8 @@ class GeneratedQrView extends GetView<GeneratedQrController> {
                                 child: Container(
                                   color: Colors.white,
                                   child: QRWidget(
-                                    data: controller.currentUserData.reference,
+                                    data:
+                                        'Library', //controller.currentUserData.reference,
                                   ),
                                 ),
                               ),

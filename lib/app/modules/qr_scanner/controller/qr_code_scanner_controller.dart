@@ -1,6 +1,5 @@
+import 'package:css/app/enum/offices_key_enum.dart';
 import 'package:css/app/helpers/my_logger_helper.dart';
-import 'package:css/app/models/user_model.dart';
-import 'package:css/app/repositories/user_repository.dart';
 import 'package:css/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +13,7 @@ class QRScanLoginController extends GetxController {
   final _status = QRScanLoginControllerStatus.initial.obs;
   bool get isLoading => _status.value == QRScanLoginControllerStatus.loading;
 
-  final userData = Rxn<UserModel>();
+  // final userData = Rxn<UserModel>();
 
   String currentState() => 'QRScanLoginController(_status: ${_status.value},)';
 
@@ -56,34 +55,20 @@ class QRScanLoginController extends GetxController {
     if (result != null) {
       try {
         _status.value = QRScanLoginControllerStatus.loading;
-        MyLogger.printInfo("GET QR CODE: ${result.code!}");
-        userData.value = await UserRepository.getUserData(result.code!);
+        MyLogger.printInfo("QR CODE: ${result.code}");
 
-        if (userData.value != null) {
-          Get.back(closeOverlays: true);
-          if (userData.value!.service == 'Library') {
-            Get.toNamed(AppPages.SURVEY_LIBRARY, arguments: userData.value);
-          } else if (userData.value!.service == 'Admin Office') {
-            Get.toNamed(AppPages.SURVEY_ADMIN_OFFICE,
-                arguments: userData.value);
-          } else if (userData.value!.service == 'Security Office') {
-            Get.toNamed(AppPages.SURVEY_SECURITY_OFFICE,
-                arguments: userData.value);
-          } else if (userData.value!.service == 'Registrar') {
-            Get.toNamed(AppPages.SURVEY_REGISTRAR_OFFICE,
-                arguments: userData.value);
-          } else if (userData.value!.service == 'Cashier') {
-            Get.toNamed(AppPages.SURVEY_CASHIER, arguments: userData.value);
-          }
-        } else {
-          _status.value = QRScanLoginControllerStatus.error;
-          Get.snackbar(
-            'Warning!',
-            "Invalid QR Code or Already Used.",
-            colorText: Colors.white,
-            backgroundColor: Colors.lightBlue,
-            icon: const Icon(Icons.add_alert),
-          );
+        Get.back(closeOverlays: true);
+
+        if (result.code! == OfficeQRData.library.description) {
+          Get.toNamed(AppPages.CREATE_USER_LIBRARY);
+        } else if (result.code! == OfficeQRData.adminsOffice.description) {
+          Get.toNamed(AppPages.CREATE_USER_ADMIN_OFFICE);
+        } else if (result.code! == OfficeQRData.cashier.description) {
+          Get.toNamed(AppPages.CREATE_USER_CASHIER);
+        } else if (result.code! == OfficeQRData.registrar.description) {
+          Get.toNamed(AppPages.CREATE_USER_REGISTRAR);
+        } else if (result.code! == OfficeQRData.securityOffice.description) {
+          Get.toNamed(AppPages.CREATE_USER_SECURITY_OFFICE);
         }
 
         _status.value = QRScanLoginControllerStatus.loaded;

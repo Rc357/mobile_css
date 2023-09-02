@@ -105,7 +105,7 @@ class NumberTextFieldInput extends StatelessWidget {
       autocorrect: false,
       decoration: InputDecoration(
         hintText: hintText,
-        prefixIcon: showPrefixIcon ? const Icon(Icons.text_fields) : null,
+        prefixIcon: showPrefixIcon ? const Icon(Icons.numbers) : null,
         filled: true,
         fillColor: Colors.white,
         focusedBorder: OutlineInputBorder(

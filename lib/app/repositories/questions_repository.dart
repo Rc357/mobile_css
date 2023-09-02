@@ -1,5 +1,6 @@
 import 'package:css/app/models/question_model.dart';
 import 'package:css/app/instances/firebase_instances.dart';
+import 'package:css/app/models/thank_you_message_model.dart';
 
 class QuestionsRepository {
   static Future<List<QuestionModel>> getQuestions(String office) async {
@@ -21,5 +22,16 @@ class QuestionsRepository {
     } catch (_) {
       rethrow;
     }
+  }
+
+  static Future<List<ThankYouMessageModel>> getMessages(String office) async {
+    final collectionRef = firestore.collection(office);
+    final query = collectionRef.orderBy(ThankYouMessageModel.CREATED_AT);
+    final result = await query.get();
+    final admins = result.docs.map((doc) {
+      final map = doc.data();
+      return ThankYouMessageModel.fromMap(map);
+    }).toList();
+    return admins;
   }
 }
