@@ -32,6 +32,7 @@ class SurveySecurityOfficeController extends GetxController {
   final userData = Get.arguments as UserSecurityOfficeModel;
   final securityOfficeQuestions = <QuestionModel>[].obs;
   final securityOfficeQuestionsAnswers = <QuestionModel>[].obs;
+  final questionVersion = 0.obs;
 
   bool get isLoading => _status.value == SurveySecurityOfficeStatus.loading;
 
@@ -95,6 +96,7 @@ class SurveySecurityOfficeController extends GetxController {
 
   void addLibraryAnswerTwoCase(
       QuestionModel question, TwoPointsCaseEnum twoCase) {
+    questionVersion.value = question.version;
     final userAnswer = Rxn<QuestionModel>();
 
     if (twoCase == TwoPointsCaseEnum.yes) {
@@ -110,6 +112,7 @@ class SurveySecurityOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -126,6 +129,7 @@ class SurveySecurityOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -153,6 +157,7 @@ class SurveySecurityOfficeController extends GetxController {
 
   void addLibraryAnswerFiveCase(
       QuestionModel question, FivePointsCaseEnum fiveCase) {
+    questionVersion.value = question.version;
     final userAnswer = Rxn<QuestionModel>();
 
     if (fiveCase == FivePointsCaseEnum.excellent) {
@@ -168,6 +173,7 @@ class SurveySecurityOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -184,6 +190,7 @@ class SurveySecurityOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -200,6 +207,7 @@ class SurveySecurityOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -216,6 +224,7 @@ class SurveySecurityOfficeController extends GetxController {
         fair: question.fair + 1,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -232,6 +241,7 @@ class SurveySecurityOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor + 1,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -288,6 +298,7 @@ class SurveySecurityOfficeController extends GetxController {
           fair: answer.fair,
           poor: answer.poor,
           type: answer.type,
+          version: answer.version,
           updatedAt: DateTime.now(),
           createdAt: answer.createdAt,
         );
@@ -314,6 +325,7 @@ class SurveySecurityOfficeController extends GetxController {
           uid: userData.uid,
           updatedAt: DateTime.now(),
           userType: userData.userType,
+          version: questionVersion.value,
           address: userData.address);
       UserRepository.updateUserSecurityOfficeAlreadyAnswer(updatedUser);
       _status.value = SurveySecurityOfficeStatus.submitted;

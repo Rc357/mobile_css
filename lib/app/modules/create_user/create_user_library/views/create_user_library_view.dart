@@ -84,6 +84,19 @@ class CreateUserLibrary extends GetView<CreateUserLibraryController> {
                                   const SizedBox(
                                     height: 20,
                                   ),
+                                  UserTypeDropdown(
+                                    onChanged: (value) {
+                                      if (value == null) {
+                                        return;
+                                      }
+                                      controller.courseAndYearLevelController
+                                          .setCourseIfNotStudent(value);
+                                      controller.setUserTypeValue(value);
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
                                   TextFieldInput(
                                     onChanged: (String? value) {
                                       controller.setNameValue(value!);
@@ -121,17 +134,6 @@ class CreateUserLibrary extends GetView<CreateUserLibraryController> {
                                         return;
                                       }
                                       controller.setGenderValue(value);
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  UserTypeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      controller.setUserTypeValue(value);
                                     },
                                   ),
                                   const SizedBox(

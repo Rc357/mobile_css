@@ -13,6 +13,7 @@ class QuestionModel {
   static const FAIR = 'fair';
   static const POOR = 'poor';
   static const TYPE = 'type';
+  static const VERSION = 'version';
   static const CREATED_AT = 'created_at';
   static const UPDATED_AT = 'updated_at';
 
@@ -27,6 +28,7 @@ class QuestionModel {
   final int satisfactory;
   final int fair;
   final int poor;
+  final int version;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -42,6 +44,7 @@ class QuestionModel {
     required this.satisfactory,
     required this.fair,
     required this.poor,
+    required this.version,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -59,6 +62,7 @@ class QuestionModel {
       SATISFACTORY: satisfactory,
       FAIR: fair,
       POOR: poor,
+      VERSION: version,
       CREATED_AT: FieldValue.serverTimestamp(),
       UPDATED_AT: FieldValue.serverTimestamp(),
     };
@@ -77,6 +81,7 @@ class QuestionModel {
       satisfactory: map[SATISFACTORY] as int,
       fair: map[FAIR] as int,
       poor: map[POOR] as int,
+      version: map[VERSION] as int,
       createdAt: (map[CREATED_AT] as Timestamp).toDate(),
       updatedAt: (map[UPDATED_AT] as Timestamp).toDate(),
     );

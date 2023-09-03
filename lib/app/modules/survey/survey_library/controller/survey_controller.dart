@@ -31,6 +31,7 @@ class SurveyLibraryController extends GetxController {
   final userData = Get.arguments as UserLibraryModel;
   final libraryQuestions = <QuestionModel>[].obs;
   final libraryQuestionsAnswers = <QuestionModel>[].obs;
+  final questionVersion = 0.obs;
 
   bool get isLoading => _status.value == SurveyLibraryStatus.loading;
 
@@ -93,6 +94,7 @@ class SurveyLibraryController extends GetxController {
 
   void addLibraryAnswerTwoCase(
       QuestionModel question, TwoPointsCaseEnum twoCase) {
+    questionVersion.value = question.version;
     final userAnswer = Rxn<QuestionModel>();
 
     if (twoCase == TwoPointsCaseEnum.yes) {
@@ -108,6 +110,7 @@ class SurveyLibraryController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -124,6 +127,7 @@ class SurveyLibraryController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -151,6 +155,7 @@ class SurveyLibraryController extends GetxController {
 
   void addLibraryAnswerFiveCase(
       QuestionModel question, FivePointsCaseEnum fiveCase) {
+    questionVersion.value = question.version;
     final userAnswer = Rxn<QuestionModel>();
 
     if (fiveCase == FivePointsCaseEnum.excellent) {
@@ -166,6 +171,7 @@ class SurveyLibraryController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -182,6 +188,7 @@ class SurveyLibraryController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -198,6 +205,7 @@ class SurveyLibraryController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -214,6 +222,7 @@ class SurveyLibraryController extends GetxController {
         fair: question.fair + 1,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -230,6 +239,7 @@ class SurveyLibraryController extends GetxController {
         fair: question.fair,
         poor: question.poor + 1,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -285,6 +295,7 @@ class SurveyLibraryController extends GetxController {
           fair: answer.fair,
           poor: answer.poor,
           type: answer.type,
+          version: answer.version,
           updatedAt: DateTime.now(),
           createdAt: answer.createdAt,
         );
@@ -312,6 +323,7 @@ class SurveyLibraryController extends GetxController {
         gender: userData.gender,
         userType: userData.userType,
         answered: true,
+        version: questionVersion.value,
         createdAt: userData.createdAt,
         updatedAt: DateTime.now(),
       );

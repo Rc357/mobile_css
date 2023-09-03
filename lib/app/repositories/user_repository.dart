@@ -28,6 +28,7 @@ class UserRepository {
         gender: userModel.gender,
         userType: userModel.userType,
         answered: userModel.answered,
+        version: userModel.version,
         createdAt: userModel.createdAt,
         updatedAt: userModel.updatedAt,
       );
@@ -49,6 +50,7 @@ class UserRepository {
         yearLevel: userModel.yearLevel,
         userType: userModel.userType,
         answered: userModel.answered,
+        version: userModel.version,
         createdAt: userModel.createdAt,
         updatedAt: userModel.updatedAt,
       );
@@ -70,6 +72,7 @@ class UserRepository {
         yearLevel: userModel.yearLevel,
         userType: userModel.userType,
         answered: userModel.answered,
+        version: userModel.version,
         createdAt: userModel.createdAt,
         updatedAt: userModel.updatedAt,
       );
@@ -91,6 +94,7 @@ class UserRepository {
         yearLevel: userModel.yearLevel,
         userType: userModel.userType,
         answered: userModel.answered,
+        version: userModel.version,
         createdAt: userModel.createdAt,
         updatedAt: userModel.updatedAt,
       );
@@ -111,6 +115,7 @@ class UserRepository {
         address: userModel.address,
         userType: userModel.userType,
         answered: userModel.answered,
+        version: userModel.version,
         createdAt: userModel.createdAt,
         updatedAt: userModel.updatedAt,
       );

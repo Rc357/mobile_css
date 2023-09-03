@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:css/app/constants/constants.dart';
 import 'package:css/app/constants/my_logger.dart';
 import 'package:css/app/routes/app_pages.dart';
 
@@ -16,12 +15,7 @@ class SplashController extends GetxController {
   }
 
   void _loadingTimer() {
-    Timer(const Duration(seconds: 3), () {
-      // if (ConstantApp.userType == 'user') {
-      // Get.toNamed(AppPages.START);
-      // } else {
-      //   Get.toNamed(AppPages.OFFICE_DASHBOARD);
-      // }
+    Timer(const Duration(seconds: 2), () {
       Get.toNamed(AppPages.OFFICE_DASHBOARD);
       myLogger.i("Splash Loaded");
     });

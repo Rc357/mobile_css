@@ -84,6 +84,7 @@ class CreateUserSecurityOfficeController extends GetxController {
 
   Future<void> proceedToSecurityOffice() async {
     _status.value = CreateUserSecurityOfficeStatus.loading;
+
     if (_name.value.isEmpty ||
         _address.value.isEmpty ||
         _userType.value == UserTypeEnum.unknown) {
@@ -105,6 +106,7 @@ class CreateUserSecurityOfficeController extends GetxController {
           address: _address.value,
           userType: _userType.value,
           answered: false,
+          version: 0,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now());
 

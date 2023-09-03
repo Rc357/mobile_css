@@ -84,6 +84,21 @@ class CreateUserAdminOffice extends GetView<CreateUserAdminOfficeController> {
                                   const SizedBox(
                                     height: 20,
                                   ),
+                                  UserTypeDropdown(
+                                    onChanged: (value) {
+                                      if (value == null) {
+                                        return;
+                                      }
+                                      controller.courseAndYearLevelController
+                                          .setCourseIfNotStudent(value);
+                                      controller.courseAndYearLevelController
+                                          .setYearLevelIfNotStudent(value);
+                                      controller.setUserTypeValue(value);
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
                                   TextFieldInput(
                                     onChanged: (String? value) {
                                       controller.setNameValue(value!);
@@ -113,17 +128,6 @@ class CreateUserAdminOffice extends GetView<CreateUserAdminOfficeController> {
                                         return;
                                       }
                                       controller.setYearLevelValue(value);
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  UserTypeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      controller.setUserTypeValue(value);
                                     },
                                   ),
                                   const SizedBox(

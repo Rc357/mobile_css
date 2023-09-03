@@ -33,6 +33,7 @@ class SurveyCashierOfficeController extends GetxController {
   final userData = Get.arguments as UserCashierModel;
   final cashierQuestions = <QuestionModel>[].obs;
   final cahierQuestionsAnswers = <QuestionModel>[].obs;
+  final questionVersion = 0.obs;
 
   bool get isLoading => _status.value == SurveyCashierOfficeStatus.loading;
 
@@ -68,7 +69,8 @@ class SurveyCashierOfficeController extends GetxController {
             break;
           case SurveyCashierOfficeStatus.submitted:
             MyLogger.printInfo(currentState());
-            Get.toNamed(AppPages.SURVEY_SUBMITTED, arguments: userData);
+            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED,
+                arguments: OfficeQRData.cashier);
             break;
         }
       },
@@ -93,6 +95,7 @@ class SurveyCashierOfficeController extends GetxController {
 
   void addLibraryAnswerTwoCase(
       QuestionModel question, TwoPointsCaseEnum twoCase) {
+    questionVersion.value = question.version;
     final userAnswer = Rxn<QuestionModel>();
 
     if (twoCase == TwoPointsCaseEnum.yes) {
@@ -108,6 +111,7 @@ class SurveyCashierOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -124,6 +128,7 @@ class SurveyCashierOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -151,6 +156,7 @@ class SurveyCashierOfficeController extends GetxController {
 
   void addLibraryAnswerFiveCase(
       QuestionModel question, FivePointsCaseEnum fiveCase) {
+    questionVersion.value = question.version;
     final userAnswer = Rxn<QuestionModel>();
 
     if (fiveCase == FivePointsCaseEnum.excellent) {
@@ -166,6 +172,7 @@ class SurveyCashierOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -182,6 +189,7 @@ class SurveyCashierOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -198,6 +206,7 @@ class SurveyCashierOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -214,6 +223,7 @@ class SurveyCashierOfficeController extends GetxController {
         fair: question.fair + 1,
         poor: question.poor,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -230,6 +240,7 @@ class SurveyCashierOfficeController extends GetxController {
         fair: question.fair,
         poor: question.poor + 1,
         type: question.type,
+        version: question.version,
         updatedAt: DateTime.now(),
         createdAt: question.createdAt,
       );
@@ -285,6 +296,7 @@ class SurveyCashierOfficeController extends GetxController {
           fair: answer.fair,
           poor: answer.poor,
           type: answer.type,
+          version: answer.version,
           updatedAt: DateTime.now(),
           createdAt: answer.createdAt,
         );
@@ -312,6 +324,7 @@ class SurveyCashierOfficeController extends GetxController {
           updatedAt: DateTime.now(),
           userType: userData.userType,
           course: userData.course,
+          version: questionVersion.value,
           yearLevel: userData.yearLevel);
       UserRepository.updateUserCashierAlreadyAnswer(updatedUser);
       _status.value = SurveyCashierOfficeStatus.submitted;

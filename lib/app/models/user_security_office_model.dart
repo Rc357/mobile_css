@@ -7,6 +7,7 @@ class UserSecurityOfficeModel {
   static const ADDRESS = 'address';
   static const USER_TYPE = 'userType';
   static const ANSWERED = 'answered';
+  static const VERSION = 'version';
   static const CREATED_AT = 'created_at';
   static const UPDATED_AT = 'updated_at';
 
@@ -15,6 +16,7 @@ class UserSecurityOfficeModel {
   final String address;
   final UserTypeEnum userType;
   final bool answered;
+  final int version;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -24,6 +26,7 @@ class UserSecurityOfficeModel {
     required this.address,
     required this.userType,
     required this.answered,
+    required this.version,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -35,6 +38,7 @@ class UserSecurityOfficeModel {
       ADDRESS: address,
       USER_TYPE: userType.name,
       ANSWERED: answered,
+      VERSION: version,
       CREATED_AT: FieldValue.serverTimestamp(),
       UPDATED_AT: FieldValue.serverTimestamp(),
     };
@@ -47,6 +51,7 @@ class UserSecurityOfficeModel {
       address: map[ADDRESS] as String,
       userType: UserTypeEnum.values.byName(map[USER_TYPE] as String),
       answered: map[ANSWERED] as bool,
+      version: map[VERSION] as int,
       createdAt: (map[CREATED_AT] as Timestamp).toDate(),
       updatedAt: (map[UPDATED_AT] as Timestamp).toDate(),
     );
@@ -61,6 +66,7 @@ class UserSecurityOfficeModel {
       address: map[ADDRESS] as String,
       userType: map[USER_TYPE] as UserTypeEnum,
       answered: map[ANSWERED] as bool,
+      version: map[VERSION] as int,
       createdAt: (map[CREATED_AT] as Timestamp).toDate(),
       updatedAt: (map[UPDATED_AT] as Timestamp).toDate(),
     );

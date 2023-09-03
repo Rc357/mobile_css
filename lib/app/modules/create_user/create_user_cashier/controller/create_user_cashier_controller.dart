@@ -92,35 +92,71 @@ class CreateUserCashierController extends GetxController {
 
   Future<void> proceedToCashier() async {
     _status.value = CreateUserCashierStatus.loading;
-    if (_name.value.isEmpty ||
-        _course.value == CourseEnum.unknown ||
-        _yearLevel.value == YearLevelEnum.unknown ||
-        _userType.value == UserTypeEnum.unknown) {
-      Get.snackbar(
-        'Warning!',
-        "Please make sure all data is valid.",
-        colorText: Colors.white,
-        backgroundColor: Colors.lightBlue,
-        icon: const Icon(Icons.add_alert),
-      );
+    if (_userType.value == UserTypeEnum.alumni ||
+        _userType.value == UserTypeEnum.parents ||
+        _userType.value == UserTypeEnum.guest) {
+      if (_name.value.isEmpty || _userType.value == UserTypeEnum.unknown) {
+        Get.snackbar(
+          'Warning!',
+          "Please make sure all data is valid.",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
 
-      _status.value = CreateUserCashierStatus.error;
+        _status.value = CreateUserCashierStatus.error;
+      } else {
+        _course.value = CourseEnum.unknown;
+        _yearLevel.value = YearLevelEnum.unknown;
+        MyLogger.printInfo("Proceed to save data");
+
+        final userData = UserCashierModel(
+            uid: '',
+            name: _name.value,
+            course: _course.value,
+            yearLevel: _yearLevel.value,
+            userType: _userType.value,
+            answered: false,
+            version: 0,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now());
+
+        _userCashierData.value =
+            await UserRepository.createUserCashierToSurvey(userData);
+        _status.value = CreateUserCashierStatus.submitted;
+      }
     } else {
-      MyLogger.printInfo("Proceed to save data");
+      if (_name.value.isEmpty ||
+          _course.value == CourseEnum.unknown ||
+          _yearLevel.value == YearLevelEnum.unknown ||
+          _userType.value == UserTypeEnum.unknown) {
+        Get.snackbar(
+          'Warning!',
+          "Please make sure all data is valid.",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
 
-      final userData = UserCashierModel(
-          uid: '',
-          name: _name.value.capitalizeFirst!,
-          course: _course.value,
-          yearLevel: _yearLevel.value,
-          userType: _userType.value,
-          answered: false,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now());
+        _status.value = CreateUserCashierStatus.error;
+      } else {
+        MyLogger.printInfo("Proceed to save data");
 
-      _userCashierData.value =
-          await UserRepository.createUserCashierToSurvey(userData);
-      _status.value = CreateUserCashierStatus.submitted;
+        final userData = UserCashierModel(
+            uid: '',
+            name: _name.value,
+            course: _course.value,
+            yearLevel: _yearLevel.value,
+            userType: _userType.value,
+            answered: false,
+            version: 0,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now());
+
+        _userCashierData.value =
+            await UserRepository.createUserCashierToSurvey(userData);
+        _status.value = CreateUserCashierStatus.submitted;
+      }
     }
   }
 }

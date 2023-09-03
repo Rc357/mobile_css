@@ -11,6 +11,7 @@ class UserLibraryModel {
   static const GENDER = 'gender';
   static const USER_TYPE = 'userType';
   static const ANSWERED = 'answered';
+  static const VERSION = 'version';
   static const CREATED_AT = 'created_at';
   static const UPDATED_AT = 'updated_at';
 
@@ -21,6 +22,7 @@ class UserLibraryModel {
   final GenderEnum gender;
   final UserTypeEnum userType;
   final bool answered;
+  final int version;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -32,6 +34,7 @@ class UserLibraryModel {
     required this.course,
     required this.userType,
     required this.answered,
+    required this.version,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -45,6 +48,7 @@ class UserLibraryModel {
       GENDER: gender.name,
       USER_TYPE: userType.name,
       ANSWERED: answered,
+      VERSION: version,
       CREATED_AT: FieldValue.serverTimestamp(),
       UPDATED_AT: FieldValue.serverTimestamp(),
     };
@@ -59,6 +63,7 @@ class UserLibraryModel {
       course: CourseEnum.values.byName(map[COURSE] as String),
       userType: UserTypeEnum.values.byName(map[USER_TYPE] as String),
       answered: map[ANSWERED] as bool,
+      version: map[VERSION] as int,
       createdAt: (map[CREATED_AT] as Timestamp).toDate(),
       updatedAt: (map[UPDATED_AT] as Timestamp).toDate(),
     );
@@ -74,6 +79,7 @@ class UserLibraryModel {
       gender: map[GENDER] as GenderEnum,
       userType: map[USER_TYPE] as UserTypeEnum,
       answered: map[ANSWERED] as bool,
+      version: map[VERSION] as int,
       createdAt: (map[CREATED_AT] as Timestamp).toDate(),
       updatedAt: (map[UPDATED_AT] as Timestamp).toDate(),
     );

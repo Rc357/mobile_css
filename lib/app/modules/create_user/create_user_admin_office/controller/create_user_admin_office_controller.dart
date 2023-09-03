@@ -91,34 +91,69 @@ class CreateUserAdminOfficeController extends GetxController {
 
   Future<void> proceedToAdminOffice() async {
     _status.value = CreateUserAdminOfficeStatus.loading;
-    if (_name.value.isEmpty ||
-        _course.value == CourseEnum.unknown ||
-        _userType.value == UserTypeEnum.unknown ||
-        _yearLevel.value == YearLevelEnum.unknown) {
-      Get.snackbar(
-        'Warning!',
-        "Please make sure all data is valid.",
-        colorText: Colors.white,
-        backgroundColor: Colors.lightBlue,
-        icon: const Icon(Icons.add_alert),
-      );
+    if (_userType.value == UserTypeEnum.alumni ||
+        _userType.value == UserTypeEnum.parents ||
+        _userType.value == UserTypeEnum.guest) {
+      if (_name.value.isEmpty || _userType.value == UserTypeEnum.unknown) {
+        Get.snackbar(
+          'Warning!',
+          "Please make sure all data is valid.",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
 
-      _status.value = CreateUserAdminOfficeStatus.error;
+        _status.value = CreateUserAdminOfficeStatus.error;
+      } else {
+        _course.value = CourseEnum.unknown;
+        _yearLevel.value = YearLevelEnum.unknown;
+        MyLogger.printInfo("Proceed to save data");
+
+        final userData = UserAdminOfficeModel(
+            uid: '',
+            name: _name.value.capitalizeFirst!,
+            course: _course.value,
+            yearLevel: _yearLevel.value,
+            userType: _userType.value,
+            answered: false,
+            version: 0,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now());
+        _userAdminOfficeData.value =
+            await UserRepository.createUserAdminOfficeToSurvey(userData);
+        _status.value = CreateUserAdminOfficeStatus.submitted;
+      }
     } else {
-      MyLogger.printInfo("Proceed to save data");
+      if (_name.value.isEmpty ||
+          _course.value == CourseEnum.unknown ||
+          _userType.value == UserTypeEnum.unknown ||
+          _yearLevel.value == YearLevelEnum.unknown) {
+        Get.snackbar(
+          'Warning!',
+          "Please make sure all data is valid.",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
 
-      final userData = UserAdminOfficeModel(
-          uid: '',
-          name: _name.value.capitalizeFirst!,
-          course: _course.value,
-          yearLevel: _yearLevel.value,
-          userType: _userType.value,
-          answered: false,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now());
-      _userAdminOfficeData.value =
-          await UserRepository.createUserAdminOfficeToSurvey(userData);
-      _status.value = CreateUserAdminOfficeStatus.submitted;
+        _status.value = CreateUserAdminOfficeStatus.error;
+      } else {
+        MyLogger.printInfo("Proceed to save data");
+
+        final userData = UserAdminOfficeModel(
+            uid: '',
+            name: _name.value,
+            course: _course.value,
+            yearLevel: _yearLevel.value,
+            userType: _userType.value,
+            answered: false,
+            version: 0,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now());
+        _userAdminOfficeData.value =
+            await UserRepository.createUserAdminOfficeToSurvey(userData);
+        _status.value = CreateUserAdminOfficeStatus.submitted;
+      }
     }
   }
 }

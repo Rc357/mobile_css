@@ -92,35 +92,72 @@ class CreateUserRegistrarController extends GetxController {
 
   Future<void> proceedToRegistrar() async {
     _status.value = CreateUserRegistrarStatus.loading;
-    if (_name.value.isEmpty ||
-        _course.value == CourseEnum.unknown ||
-        _yearLevel.value == YearLevelEnum.unknown ||
-        _userType.value == UserTypeEnum.unknown) {
-      Get.snackbar(
-        'Warning!',
-        "Please make sure all data is valid.",
-        colorText: Colors.white,
-        backgroundColor: Colors.lightBlue,
-        icon: const Icon(Icons.add_alert),
-      );
 
-      _status.value = CreateUserRegistrarStatus.error;
+    if (_userType.value == UserTypeEnum.alumni ||
+        _userType.value == UserTypeEnum.parents ||
+        _userType.value == UserTypeEnum.guest) {
+      if (_name.value.isEmpty || _userType.value == UserTypeEnum.unknown) {
+        Get.snackbar(
+          'Warning!',
+          "Please make sure all data is valid.",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
+
+        _status.value = CreateUserRegistrarStatus.error;
+      } else {
+        _course.value = CourseEnum.unknown;
+        _yearLevel.value = YearLevelEnum.unknown;
+        MyLogger.printInfo("Proceed to save data");
+
+        final userData = UserRegistrarModel(
+            uid: '',
+            name: _name.value.capitalizeFirst!,
+            course: _course.value,
+            yearLevel: _yearLevel.value,
+            userType: _userType.value,
+            answered: false,
+            version: 0,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now());
+
+        _userRegistrarData.value =
+            await UserRepository.createUserRegistrarToSurvey(userData);
+        _status.value = CreateUserRegistrarStatus.submitted;
+      }
     } else {
-      MyLogger.printInfo("Proceed to save data");
+      if (_name.value.isEmpty ||
+          _course.value == CourseEnum.unknown ||
+          _yearLevel.value == YearLevelEnum.unknown ||
+          _userType.value == UserTypeEnum.unknown) {
+        Get.snackbar(
+          'Warning!',
+          "Please make sure all data is valid.",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
 
-      final userData = UserRegistrarModel(
-          uid: '',
-          name: _name.value.capitalizeFirst!,
-          course: _course.value,
-          yearLevel: _yearLevel.value,
-          userType: _userType.value,
-          answered: false,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now());
+        _status.value = CreateUserRegistrarStatus.error;
+      } else {
+        MyLogger.printInfo("Proceed to save data");
 
-      _userRegistrarData.value =
-          await UserRepository.createUserRegistrarToSurvey(userData);
-      _status.value = CreateUserRegistrarStatus.submitted;
+        final userData = UserRegistrarModel(
+            uid: '',
+            name: _name.value.capitalizeFirst!,
+            course: _course.value,
+            yearLevel: _yearLevel.value,
+            userType: _userType.value,
+            answered: false,
+            version: 0,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now());
+
+        _userRegistrarData.value =
+            await UserRepository.createUserRegistrarToSurvey(userData);
+        _status.value = CreateUserRegistrarStatus.submitted;
+      }
     }
   }
 }

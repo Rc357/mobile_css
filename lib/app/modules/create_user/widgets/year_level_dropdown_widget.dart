@@ -16,48 +16,79 @@ class YearLevelDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => ButtonTheme(
-        alignedDropdown: true,
-        child: FormBuilderDropdown(
-          name: 'yearLevel',
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          onChanged: onChanged,
-          validator: (value) => null,
-          items: courseAndYearLevelController.yearLevel.map((year) {
-            return DropdownMenuItem<YearLevelEnum>(
-              value: year,
-              child: Text(year.description),
-            );
-          }).toList(),
-          decoration: InputDecoration(
-            label: const Text('Year Level'),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0),
-              borderSide: const BorderSide(
-                color: Colors.black,
-                width: 2.0,
+      () => courseAndYearLevelController.yearLevel.isEmpty
+          ? ButtonTheme(
+              alignedDropdown: true,
+              child: FormBuilderDropdown(
+                name: 'yearLevel',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onChanged: null,
+                validator: (value) => null,
+                items: courseAndYearLevelController.yearLevel.map((year) {
+                  return DropdownMenuItem<String>(
+                    value: '',
+                    child: Text(year.description),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  label: const Text('Year Level'),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide:
+                        const BorderSide(color: Colors.black, width: 1.0),
+                  ),
+                ),
+                icon: const Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 30,
+                ),
+                dropdownColor: Colors.white,
+              ),
+            )
+          : ButtonTheme(
+              alignedDropdown: true,
+              child: FormBuilderDropdown(
+                name: 'yearLevel',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onChanged: onChanged,
+                validator: (value) => null,
+                items: courseAndYearLevelController.yearLevel.map((year) {
+                  return DropdownMenuItem<YearLevelEnum>(
+                    value: year,
+                    child: Text(year.description),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  label: const Text('Year Level'),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: const BorderSide(
+                      color: Colors.black,
+                      width: 2.0,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide:
+                        const BorderSide(color: Colors.black, width: 1.0),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide: const BorderSide(color: Colors.red, width: 1.0),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide:
+                        const BorderSide(color: Colors.black, width: 2.0),
+                  ),
+                ),
+                icon: const Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 30,
+                ),
+                dropdownColor: Colors.white,
               ),
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0),
-              borderSide: const BorderSide(color: Colors.black, width: 1.0),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0),
-              borderSide: const BorderSide(color: Colors.red, width: 1.0),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0),
-              borderSide: const BorderSide(color: Colors.black, width: 2.0),
-            ),
-          ),
-          icon: const Icon(
-            Icons.keyboard_arrow_down,
-            size: 30,
-          ),
-          dropdownColor: Colors.white,
-        ),
-      ),
     );
   }
 }
