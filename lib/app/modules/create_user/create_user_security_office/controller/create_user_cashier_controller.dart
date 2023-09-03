@@ -102,7 +102,7 @@ class CreateUserSecurityOfficeController extends GetxController {
 
       final userData = UserSecurityOfficeModel(
           uid: '',
-          name: _name.value.capitalizeFirst!,
+          name: _name.value,
           address: _address.value,
           userType: _userType.value,
           answered: false,

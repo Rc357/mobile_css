@@ -119,7 +119,7 @@ class CreateUserLibraryController extends GetxController {
 
         final userData = UserLibraryModel(
             uid: '',
-            name: _name.value.capitalizeFirst!,
+            name: _name.value,
             contact: _contact.value,
             course: _course.value,
             gender: _gender.value,
@@ -152,7 +152,7 @@ class CreateUserLibraryController extends GetxController {
 
         final userData = UserLibraryModel(
             uid: '',
-            name: _name.value.capitalizeFirst!,
+            name: _name.value,
             contact: _contact.value,
             course: _course.value,
             gender: _gender.value,

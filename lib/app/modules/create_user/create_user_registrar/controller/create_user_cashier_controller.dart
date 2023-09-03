@@ -113,7 +113,7 @@ class CreateUserRegistrarController extends GetxController {
 
         final userData = UserRegistrarModel(
             uid: '',
-            name: _name.value.capitalizeFirst!,
+            name: _name.value,
             course: _course.value,
             yearLevel: _yearLevel.value,
             userType: _userType.value,
@@ -145,7 +145,7 @@ class CreateUserRegistrarController extends GetxController {
 
         final userData = UserRegistrarModel(
             uid: '',
-            name: _name.value.capitalizeFirst!,
+            name: _name.value,
             course: _course.value,
             yearLevel: _yearLevel.value,
             userType: _userType.value,
