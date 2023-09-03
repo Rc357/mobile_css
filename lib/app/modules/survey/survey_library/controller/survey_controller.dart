@@ -309,6 +309,7 @@ class SurveyLibraryController extends GetxController {
           remarks: optional.value,
           referenceUser: userData.uid,
           officeName: OfficeQRData.library.name,
+          version: questionVersion.value,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );

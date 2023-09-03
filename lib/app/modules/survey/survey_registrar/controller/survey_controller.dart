@@ -313,6 +313,7 @@ class SurveyRegistrarOfficeController extends GetxController {
           remarks: optional.value,
           referenceUser: userData.uid,
           officeName: OfficeQRData.registrar.name,
+          version: questionVersion.value,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );

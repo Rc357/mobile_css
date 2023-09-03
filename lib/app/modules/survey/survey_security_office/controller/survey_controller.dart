@@ -312,6 +312,7 @@ class SurveySecurityOfficeController extends GetxController {
           remarks: optional.value,
           referenceUser: userData.uid,
           officeName: OfficeQRData.securityOffice.name,
+          version: questionVersion.value,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );

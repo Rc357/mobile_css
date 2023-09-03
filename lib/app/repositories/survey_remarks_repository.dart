@@ -12,6 +12,7 @@ class SurveyRemarksRepository {
         remarks: remarks.remarks,
         referenceUser: remarks.referenceUser,
         officeName: remarks.officeName,
+        version: remarks.version,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );
