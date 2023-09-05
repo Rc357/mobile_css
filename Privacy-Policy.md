@@ -58,7 +58,7 @@ You can opt-out of receiving promotional communications from us by following the
 
 7. Children's Privacy
 
-The App is not intended for use by individuals under the age of [age]. We do not knowingly collect personal information from children under [age]. If you believe that we may have collected information from a child under [age], please contact us, and we will take appropriate steps to delete such information.
+The App is not intended for use by individuals under the age of 16. We do not knowingly collect personal information from children under 16. If you believe that we may have collected information from a child under 16, please contact us, and we will take appropriate steps to delete such information.
 
 8. Changes to this Privacy Policy
 
