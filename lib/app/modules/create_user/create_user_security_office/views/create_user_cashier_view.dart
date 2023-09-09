@@ -4,7 +4,6 @@ import 'package:css/app/modules/create_user/widgets/text_field.dart';
 import 'package:css/app/modules/create_user/widgets/user_type_dropdown_widget.dart';
 import 'package:css/app/modules/widgets/loading_overlay_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class CreateUserSecurityOffice
@@ -24,17 +23,20 @@ class CreateUserSecurityOffice
                 child: Center(
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: 22,
+                      ),
                       Stack(
                         children: <Widget>[
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: SvgPicture.asset(
-                              ImagePath.torchWithCircle,
-                              height: .2 * MediaQuery.of(context).size.height,
+                            child: Image.asset(
+                              ImagePath.torch3d,
+                              height: .18 * MediaQuery.of(context).size.height,
                             ),
                           ),
                           Positioned.fill(
-                            top: .1 * MediaQuery.of(context).size.height,
+                            top: .08 * MediaQuery.of(context).size.height,
                             left: .11 * MediaQuery.of(context).size.height,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,9 +66,6 @@ class CreateUserSecurityOffice
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            border: Border.all(
-                              color: const Color(0xffE3DCDC),
-                            ),
                             color: Colors.white,
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),

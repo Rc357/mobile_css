@@ -15,7 +15,7 @@ class MessageCardWidget extends GetView<MessageController> {
                 padding: EdgeInsets.all(10.0),
                 child: Text(
                   'Thank You! You have successfully submitted your feedback.',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
               ),

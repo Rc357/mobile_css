@@ -4,7 +4,6 @@ import 'package:css/app/modules/survey/widgets/text_field.dart';
 import 'package:css/app/modules/survey/widgets/dropdown_field.dart';
 import 'package:css/app/modules/widgets/loading_overlay_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class SurveyLibraryView extends GetView<SurveyLibraryController> {
@@ -23,17 +22,20 @@ class SurveyLibraryView extends GetView<SurveyLibraryController> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 22,
+                    ),
                     Stack(
                       children: <Widget>[
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: SvgPicture.asset(
-                            ImagePath.torchWithCircle,
+                          child: Image.asset(
+                            ImagePath.torch3d,
                             height: .2 * MediaQuery.of(context).size.height,
                           ),
                         ),
                         Positioned.fill(
-                          top: .1 * MediaQuery.of(context).size.height,
+                          top: .08 * MediaQuery.of(context).size.height,
                           left: .11 * MediaQuery.of(context).size.height,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,9 +64,6 @@ class SurveyLibraryView extends GetView<SurveyLibraryController> {
                     Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                            ),
                             color: Colors.white,
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
