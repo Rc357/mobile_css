@@ -13,7 +13,7 @@ import 'package:css/app/repositories/survey_remarks_repository.dart';
 import 'package:css/app/repositories/user_repository.dart';
 import 'package:css/app/routes/app_pages.dart';
 
-enum SurveySecurityOfficeStatus { initial, loading, submitted, error }
+enum SurveySecurityOfficeStatus { initial, loading, loaded, submitted, error }
 
 class SurveySecurityOfficeController extends GetxController {
   static SurveySecurityOfficeController get instance => Get.find();
@@ -32,6 +32,7 @@ class SurveySecurityOfficeController extends GetxController {
   final userData = Get.arguments as UserSecurityOfficeModel;
   final securityOfficeQuestions = <QuestionModel>[].obs;
   final securityOfficeQuestionsAnswers = <QuestionModel>[].obs;
+  final questionLatestVersion = Rxn<QuestionModel>();
   final questionVersion = 0.obs;
 
   bool get isLoading => _status.value == SurveySecurityOfficeStatus.loading;
@@ -44,7 +45,7 @@ class SurveySecurityOfficeController extends GetxController {
     super.onInit();
     MyLogger.printInfo(currentState());
     _monitorSurveyFormStatus();
-    getQuestionsList();
+    getLatestVersion();
   }
 
   @override
@@ -64,6 +65,9 @@ class SurveySecurityOfficeController extends GetxController {
           case SurveySecurityOfficeStatus.loading:
             MyLogger.printInfo(currentState());
             break;
+          case SurveySecurityOfficeStatus.loaded:
+            MyLogger.printInfo(currentState());
+            break;
           case SurveySecurityOfficeStatus.initial:
             MyLogger.printInfo(currentState());
             break;
@@ -77,11 +81,23 @@ class SurveySecurityOfficeController extends GetxController {
     );
   }
 
+  void getLatestVersion() async {
+    _status.value = SurveySecurityOfficeStatus.loading;
+
+    MyLogger.printInfo("GET QUESTION VERSION: $officeName");
+    questionLatestVersion.value =
+        await QuestionsRepository.findLatestVersion(officeName);
+
+    getQuestionsList();
+  }
+
   void getQuestionsList() async {
     MyLogger.printInfo("GET QUESTION OFFICE NAME: $officeName");
-    securityOfficeQuestions.value =
-        await QuestionsRepository.getQuestions(officeName);
+    securityOfficeQuestions.value = await QuestionsRepository.getQuestions(
+        officeName, questionLatestVersion.value!.version);
     securityOfficeQuestionsAnswers.clear();
+
+    _status.value = SurveySecurityOfficeStatus.loaded;
   }
 
   void updateSelectedUserType(String selectedType) {

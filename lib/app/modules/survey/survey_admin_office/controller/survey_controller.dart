@@ -13,7 +13,7 @@ import 'package:css/app/helpers/my_logger_helper.dart';
 import 'package:css/app/models/question_model.dart';
 import 'package:css/app/routes/app_pages.dart';
 
-enum SurveyAdminOfficeStatus { initial, loading, submitted, error }
+enum SurveyAdminOfficeStatus { initial, loading, loaded, submitted, error }
 
 class SurveyAdminOfficeController extends GetxController {
   static SurveyAdminOfficeController get instance => Get.find();
@@ -33,6 +33,7 @@ class SurveyAdminOfficeController extends GetxController {
   final userData = Get.arguments as UserAdminOfficeModel;
   final adminsOfficeQuestions = <QuestionModel>[].obs;
   final adminsOfficeQuestionsAnswers = <QuestionModel>[].obs;
+  final questionLatestVersion = Rxn<QuestionModel>();
   final questionVersion = 0.obs;
 
   bool get isLoading => _status.value == SurveyAdminOfficeStatus.loading;
@@ -45,7 +46,7 @@ class SurveyAdminOfficeController extends GetxController {
     super.onInit();
     MyLogger.printInfo(currentState());
     _monitorSurveyFormStatus();
-    getQuestionsList();
+    getLatestVersion();
   }
 
   @override
@@ -65,6 +66,9 @@ class SurveyAdminOfficeController extends GetxController {
           case SurveyAdminOfficeStatus.loading:
             MyLogger.printInfo(currentState());
             break;
+          case SurveyAdminOfficeStatus.loaded:
+            MyLogger.printInfo(currentState());
+            break;
           case SurveyAdminOfficeStatus.initial:
             MyLogger.printInfo(currentState());
             break;
@@ -78,11 +82,23 @@ class SurveyAdminOfficeController extends GetxController {
     );
   }
 
+  void getLatestVersion() async {
+    _status.value = SurveyAdminOfficeStatus.loading;
+
+    MyLogger.printInfo("GET QUESTION VERSION: $officeName");
+    questionLatestVersion.value =
+        await QuestionsRepository.findLatestVersion(officeName);
+
+    getQuestionsList();
+  }
+
   void getQuestionsList() async {
     MyLogger.printInfo("GET QUESTION OFFICE NAME: $officeName");
-    adminsOfficeQuestions.value =
-        await QuestionsRepository.getQuestions(officeName);
+    adminsOfficeQuestions.value = await QuestionsRepository.getQuestions(
+        officeName, questionLatestVersion.value!.version);
     adminsOfficeQuestionsAnswers.clear();
+
+    _status.value = SurveyAdminOfficeStatus.loaded;
   }
 
   void updateSelectedUserType(String selectedType) {

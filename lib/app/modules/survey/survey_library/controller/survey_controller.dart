@@ -12,7 +12,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-enum SurveyLibraryStatus { initial, loading, submitted, error }
+enum SurveyLibraryStatus { initial, loading, loaded, submitted, error }
 
 class SurveyLibraryController extends GetxController {
   static SurveyLibraryController get instance => Get.find();
@@ -31,6 +31,7 @@ class SurveyLibraryController extends GetxController {
   final userData = Get.arguments as UserLibraryModel;
   final libraryQuestions = <QuestionModel>[].obs;
   final libraryQuestionsAnswers = <QuestionModel>[].obs;
+  final questionLatestVersion = Rxn<QuestionModel>();
   final questionVersion = 0.obs;
 
   bool get isLoading => _status.value == SurveyLibraryStatus.loading;
@@ -43,7 +44,7 @@ class SurveyLibraryController extends GetxController {
     super.onInit();
     MyLogger.printInfo(currentState());
     _monitorSurveyFormStatus();
-    getQuestionsList();
+    getLatestVersion();
   }
 
   @override
@@ -63,6 +64,9 @@ class SurveyLibraryController extends GetxController {
           case SurveyLibraryStatus.loading:
             MyLogger.printInfo(currentState());
             break;
+          case SurveyLibraryStatus.loaded:
+            MyLogger.printInfo(currentState());
+            break;
           case SurveyLibraryStatus.initial:
             MyLogger.printInfo(currentState());
             break;
@@ -76,10 +80,22 @@ class SurveyLibraryController extends GetxController {
     );
   }
 
+  void getLatestVersion() async {
+    _status.value = SurveyLibraryStatus.loading;
+    MyLogger.printInfo("GET QUESTION VERSION: $officeName");
+    questionLatestVersion.value =
+        await QuestionsRepository.findLatestVersion(officeName);
+
+    getQuestionsList();
+  }
+
   void getQuestionsList() async {
     MyLogger.printInfo("GET QUESTION OFFICE NAME: $officeName");
-    libraryQuestions.value = await QuestionsRepository.getQuestions(officeName);
+    libraryQuestions.value = await QuestionsRepository.getQuestions(
+        officeName, questionLatestVersion.value!.version);
     libraryQuestionsAnswers.clear();
+
+    _status.value = SurveyLibraryStatus.loaded;
   }
 
   void updateSelectedUserType(String selectedType) {

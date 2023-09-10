@@ -12,7 +12,7 @@ import 'package:css/app/repositories/survey_remarks_repository.dart';
 import 'package:css/app/repositories/user_repository.dart';
 import 'package:css/app/routes/app_pages.dart';
 
-enum SurveyRegistrarOfficeStatus { initial, loading, submitted, error }
+enum SurveyRegistrarOfficeStatus { initial, loading, loaded, submitted, error }
 
 class SurveyRegistrarOfficeController extends GetxController {
   static SurveyRegistrarOfficeController get instance => Get.find();
@@ -30,11 +30,12 @@ class SurveyRegistrarOfficeController extends GetxController {
   final officeName = 'questionsRegistrar';
 
   final isLibraryExpanded = false.obs;
-  final questionVersion = 0.obs;
 
   // final userData = Get.arguments as UserModel;
   final registrarQuestions = <QuestionModel>[].obs;
   final registrarQuestionsAnswers = <QuestionModel>[].obs;
+  final questionLatestVersion = Rxn<QuestionModel>();
+  final questionVersion = 0.obs;
 
   bool get isLoading => _status.value == SurveyRegistrarOfficeStatus.loading;
 
@@ -46,7 +47,7 @@ class SurveyRegistrarOfficeController extends GetxController {
     super.onInit();
     MyLogger.printInfo(currentState());
     _monitorSurveyFormStatus();
-    getQuestionsList();
+    getLatestVersion();
   }
 
   @override
@@ -66,6 +67,9 @@ class SurveyRegistrarOfficeController extends GetxController {
           case SurveyRegistrarOfficeStatus.loading:
             MyLogger.printInfo(currentState());
             break;
+          case SurveyRegistrarOfficeStatus.loaded:
+            MyLogger.printInfo(currentState());
+            break;
           case SurveyRegistrarOfficeStatus.initial:
             MyLogger.printInfo(currentState());
             break;
@@ -79,11 +83,23 @@ class SurveyRegistrarOfficeController extends GetxController {
     );
   }
 
+  void getLatestVersion() async {
+    _status.value = SurveyRegistrarOfficeStatus.loading;
+
+    MyLogger.printInfo("GET QUESTION VERSION: $officeName");
+    questionLatestVersion.value =
+        await QuestionsRepository.findLatestVersion(officeName);
+
+    getQuestionsList();
+  }
+
   void getQuestionsList() async {
     MyLogger.printInfo("GET QUESTION OFFICE NAME: $officeName");
-    registrarQuestions.value =
-        await QuestionsRepository.getQuestions(officeName);
+    registrarQuestions.value = await QuestionsRepository.getQuestions(
+        officeName, questionLatestVersion.value!.version);
     registrarQuestionsAnswers.clear();
+
+    _status.value = SurveyRegistrarOfficeStatus.loaded;
   }
 
   void updateSelectedUserType(String selectedType) {

@@ -13,7 +13,7 @@ import 'package:css/app/repositories/survey_remarks_repository.dart';
 import 'package:css/app/repositories/user_repository.dart';
 import 'package:css/app/routes/app_pages.dart';
 
-enum SurveyCashierOfficeStatus { initial, loading, submitted, error }
+enum SurveyCashierOfficeStatus { initial, loading, loaded, submitted, error }
 
 class SurveyCashierOfficeController extends GetxController {
   static SurveyCashierOfficeController get instance => Get.find();
@@ -33,6 +33,7 @@ class SurveyCashierOfficeController extends GetxController {
   final userData = Get.arguments as UserCashierModel;
   final cashierQuestions = <QuestionModel>[].obs;
   final cahierQuestionsAnswers = <QuestionModel>[].obs;
+  final questionLatestVersion = Rxn<QuestionModel>();
   final questionVersion = 0.obs;
 
   bool get isLoading => _status.value == SurveyCashierOfficeStatus.loading;
@@ -44,7 +45,7 @@ class SurveyCashierOfficeController extends GetxController {
     super.onInit();
     MyLogger.printInfo(currentState());
     _monitorSurveyFormStatus();
-    getQuestionsList();
+    getLatestVersion();
   }
 
   @override
@@ -64,6 +65,9 @@ class SurveyCashierOfficeController extends GetxController {
           case SurveyCashierOfficeStatus.loading:
             MyLogger.printInfo(currentState());
             break;
+          case SurveyCashierOfficeStatus.loaded:
+            MyLogger.printInfo(currentState());
+            break;
           case SurveyCashierOfficeStatus.initial:
             MyLogger.printInfo(currentState());
             break;
@@ -77,10 +81,21 @@ class SurveyCashierOfficeController extends GetxController {
     );
   }
 
+  void getLatestVersion() async {
+    _status.value = SurveyCashierOfficeStatus.loading;
+    MyLogger.printInfo("GET QUESTION VERSION: $officeName");
+    questionLatestVersion.value =
+        await QuestionsRepository.findLatestVersion(officeName);
+
+    getQuestionsList();
+  }
+
   void getQuestionsList() async {
     MyLogger.printInfo("GET QUESTION OFFICE NAME: $officeName");
-    cashierQuestions.value = await QuestionsRepository.getQuestions(officeName);
+    cashierQuestions.value = await QuestionsRepository.getQuestions(
+        officeName, questionLatestVersion.value!.version);
     cahierQuestionsAnswers.clear();
+    _status.value = SurveyCashierOfficeStatus.loaded;
   }
 
   void updateSelectedUserType(String selectedType) {
