@@ -66,4 +66,4 @@ We may update this Privacy Policy from time to time to reflect changes in our pr
 
 9. Contact Us
 
-If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at [Your Contact Information].
+If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at rexcha6@gmail.com.
