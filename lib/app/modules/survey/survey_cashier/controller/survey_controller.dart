@@ -1,4 +1,5 @@
 import 'package:css/app/enum/offices_key_enum.dart';
+import 'package:css/app/models/submitted_model.dart';
 import 'package:css/app/models/user_cashier_model.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -73,8 +74,10 @@ class SurveyCashierOfficeController extends GetxController {
             break;
           case SurveyCashierOfficeStatus.submitted:
             MyLogger.printInfo(currentState());
-            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED,
-                arguments: OfficeQRData.cashier);
+            final dataPass = SubmittedArgs(
+                version: questionVersion.value,
+                officeQRData: OfficeQRData.cashier);
+            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED, arguments: dataPass);
             break;
         }
       },

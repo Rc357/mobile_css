@@ -42,9 +42,12 @@ class QuestionsRepository {
     }
   }
 
-  static Future<List<ThankYouMessageModel>> getMessages(String office) async {
+  static Future<List<ThankYouMessageModel>> getMessages(
+      String office, int version) async {
     final collectionRef = firestore.collection(office);
-    final query = collectionRef.orderBy(ThankYouMessageModel.CREATED_AT);
+    final query = collectionRef
+        .orderBy(ThankYouMessageModel.CREATED_AT)
+        .where('version', isEqualTo: version);
     final result = await query.get();
     final admins = result.docs.map((doc) {
       final map = doc.data();

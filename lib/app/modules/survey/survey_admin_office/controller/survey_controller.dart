@@ -1,4 +1,5 @@
 import 'package:css/app/enum/offices_key_enum.dart';
+import 'package:css/app/models/submitted_model.dart';
 import 'package:css/app/models/survey_remarks.dart';
 import 'package:css/app/models/user_admin_office_model.dart';
 import 'package:css/app/repositories/questions_repository.dart';
@@ -74,8 +75,10 @@ class SurveyAdminOfficeController extends GetxController {
             break;
           case SurveyAdminOfficeStatus.submitted:
             MyLogger.printInfo(currentState());
-            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED,
-                arguments: OfficeQRData.adminsOffice);
+            final dataPass = SubmittedArgs(
+                version: questionVersion.value,
+                officeQRData: OfficeQRData.adminsOffice);
+            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED, arguments: dataPass);
             break;
         }
       },

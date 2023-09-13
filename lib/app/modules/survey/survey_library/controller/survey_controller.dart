@@ -2,6 +2,7 @@ import 'package:css/app/enum/offices_key_enum.dart';
 import 'package:css/app/enum/survey_enum.dart';
 import 'package:css/app/helpers/my_logger_helper.dart';
 import 'package:css/app/models/question_model.dart';
+import 'package:css/app/models/submitted_model.dart';
 import 'package:css/app/models/survey_remarks.dart';
 import 'package:css/app/models/user_library_model.dart';
 import 'package:css/app/repositories/questions_repository.dart';
@@ -72,8 +73,11 @@ class SurveyLibraryController extends GetxController {
             break;
           case SurveyLibraryStatus.submitted:
             MyLogger.printInfo(currentState());
-            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED,
-                arguments: OfficeQRData.library);
+
+            final dataPass = SubmittedArgs(
+                version: questionVersion.value,
+                officeQRData: OfficeQRData.library);
+            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED, arguments: dataPass);
             break;
         }
       },

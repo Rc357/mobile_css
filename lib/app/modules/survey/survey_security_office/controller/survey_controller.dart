@@ -1,4 +1,5 @@
 import 'package:css/app/enum/offices_key_enum.dart';
+import 'package:css/app/models/submitted_model.dart';
 import 'package:css/app/models/user_security_office_model.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -73,8 +74,11 @@ class SurveySecurityOfficeController extends GetxController {
             break;
           case SurveySecurityOfficeStatus.submitted:
             MyLogger.printInfo(currentState());
-            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED,
-                arguments: OfficeQRData.securityOffice);
+
+            final dataPass = SubmittedArgs(
+                version: questionVersion.value,
+                officeQRData: OfficeQRData.securityOffice);
+            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED, arguments: dataPass);
             break;
         }
       },

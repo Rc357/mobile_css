@@ -1,4 +1,5 @@
 import 'package:css/app/enum/offices_key_enum.dart';
+import 'package:css/app/models/submitted_model.dart';
 import 'package:css/app/models/user_registrar_model.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -75,8 +76,12 @@ class SurveyRegistrarOfficeController extends GetxController {
             break;
           case SurveyRegistrarOfficeStatus.submitted:
             MyLogger.printInfo(currentState());
-            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED,
-                arguments: OfficeQRData.registrar);
+
+            final dataPass = SubmittedArgs(
+                version: questionVersion.value,
+                officeQRData: OfficeQRData.registrar);
+            Get.offAndToNamed(AppPages.SURVEY_SUBMITTED, arguments: dataPass);
+
             break;
         }
       },

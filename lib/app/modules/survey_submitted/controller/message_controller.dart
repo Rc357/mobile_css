@@ -1,5 +1,6 @@
 import 'package:css/app/enum/offices_key_enum.dart';
 import 'package:css/app/helpers/my_logger_helper.dart';
+import 'package:css/app/models/submitted_model.dart';
 import 'package:css/app/models/thank_you_message_model.dart';
 import 'package:css/app/repositories/questions_repository.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,7 @@ class MessageController extends GetxController {
 
   final allMessages = <ThankYouMessageModel>[].obs;
 
-  final officeQR = Get.arguments as OfficeQRData;
+  final argsData = Get.arguments as SubmittedArgs;
   final officeName = ''.obs;
 
   String currentState() => 'Controller(_status: ${_status.value},)';
@@ -55,19 +56,19 @@ class MessageController extends GetxController {
   }
 
   void getMessages() async {
-    if (officeQR == OfficeQRData.adminsOffice) {
+    if (argsData.officeQRData == OfficeQRData.adminsOffice) {
       officeName.value = 'regardsAdminsOffice';
-    } else if (officeQR == OfficeQRData.securityOffice) {
+    } else if (argsData.officeQRData == OfficeQRData.securityOffice) {
       officeName.value = 'regardsSecurityOffice';
     } else {
-      officeName.value = 'regards${officeQR.name.capitalizeFirst}';
+      officeName.value = 'regards${argsData.officeQRData.name.capitalizeFirst}';
     }
 
     MyLogger.printInfo('office: $officeName');
     try {
       _status.value = MessageControllerStatus.loading;
-      allMessages.value =
-          await QuestionsRepository.getMessages(officeName.value);
+      allMessages.value = await QuestionsRepository.getMessages(
+          officeName.value, argsData.version);
 
       _status.value = MessageControllerStatus.loaded;
     } catch (e) {
