@@ -50,7 +50,7 @@ class SurveyCashierOfficeView extends GetView<SurveyCashierOfficeController> {
                               ),
                               const Expanded(
                                 child: Text(
-                                  "You will now be evaluating \nthe Cashier's Office.",
+                                  "You are now evaluating the \nCashier's Office.",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.white),

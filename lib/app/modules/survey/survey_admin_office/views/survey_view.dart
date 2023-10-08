@@ -50,7 +50,7 @@ class SurveyAdminOfficeView extends GetView<SurveyAdminOfficeController> {
                               ),
                               const Expanded(
                                 child: Text(
-                                  'You will now be evaluating \nthe Admin Office.',
+                                  "You are now evaluating the \nAdministrative Office.",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.white),

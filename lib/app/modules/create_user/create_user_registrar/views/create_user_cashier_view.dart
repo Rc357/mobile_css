@@ -52,7 +52,7 @@ class CreateUserRegistrar extends GetView<CreateUserRegistrarController> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    'Please fill up the log-in form.',
+                                    'Please fill in the log-in form.',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                         fontSize: 16, color: Colors.white),

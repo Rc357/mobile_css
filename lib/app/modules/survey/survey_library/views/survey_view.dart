@@ -50,7 +50,7 @@ class SurveyLibraryView extends GetView<SurveyLibraryController> {
                               ),
                               const Expanded(
                                 child: Text(
-                                  'You will now be evaluating the Library.',
+                                  'You are now evaluating the\nLibrary Office.',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.white),

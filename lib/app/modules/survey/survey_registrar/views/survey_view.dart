@@ -51,7 +51,7 @@ class SurveyRegistrarOfficeView
                               ),
                               const Expanded(
                                 child: Text(
-                                  "You will now be evaluating \nthe Registrar's Office.",
+                                  "You are now evaluating the\nRegistrar's Office.",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.white),
