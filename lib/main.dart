@@ -37,8 +37,9 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-//run app
+//*update pub resources
+//flutter pub get
+//*run app
 //flutter run
+//*build app
 //flutter build apk 
