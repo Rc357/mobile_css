@@ -9,6 +9,7 @@ class UserRegistrarModel {
   static const COURSE = 'course';
   static const YEAR_LEVEL = 'yearLevel';
   static const USER_TYPE = 'userType';
+  static const STUDENT_ID = 'studentId';
   static const ANSWERED = 'answered';
   static const VERSION = 'version';
   static const CREATED_AT = 'created_at';
@@ -19,6 +20,7 @@ class UserRegistrarModel {
   final CourseEnum course;
   final YearLevelEnum yearLevel;
   final UserTypeEnum userType;
+  final String studentId;
   final bool answered;
   final int version;
   final DateTime createdAt;
@@ -30,6 +32,7 @@ class UserRegistrarModel {
     required this.course,
     required this.yearLevel,
     required this.userType,
+    required this.studentId,
     required this.answered,
     required this.version,
     required this.createdAt,
@@ -43,6 +46,7 @@ class UserRegistrarModel {
       COURSE: course.name,
       YEAR_LEVEL: yearLevel.name,
       USER_TYPE: userType.name,
+      STUDENT_ID: studentId,
       ANSWERED: answered,
       VERSION: version,
       CREATED_AT: FieldValue.serverTimestamp(),
@@ -57,6 +61,7 @@ class UserRegistrarModel {
       course: CourseEnum.values.byName(map[COURSE] as String),
       yearLevel: YearLevelEnum.values.byName(map[YEAR_LEVEL] as String),
       userType: UserTypeEnum.values.byName(map[USER_TYPE] as String),
+      studentId: map[STUDENT_ID] as String,
       answered: map[ANSWERED] as bool,
       version: map[VERSION] as int,
       createdAt: (map[CREATED_AT] as Timestamp).toDate(),
@@ -72,6 +77,7 @@ class UserRegistrarModel {
       course: map[COURSE] as CourseEnum,
       yearLevel: map[YEAR_LEVEL] as YearLevelEnum,
       userType: map[USER_TYPE] as UserTypeEnum,
+      studentId: map[STUDENT_ID] as String,
       answered: map[ANSWERED] as bool,
       version: map[VERSION] as int,
       createdAt: (map[CREATED_AT] as Timestamp).toDate(),

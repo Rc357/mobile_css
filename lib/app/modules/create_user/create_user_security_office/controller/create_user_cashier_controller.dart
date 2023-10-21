@@ -24,6 +24,9 @@ class CreateUserSecurityOfficeController extends GetxController {
   final isUserExpanded = false.obs;
   final isServiceExpanded = false.obs;
   final _userSecurityOfficeData = Rxn<UserSecurityOfficeModel>();
+  final _studentId = ''.obs;
+
+  UserTypeEnum get userType => _userType.value;
 
   bool get isLoading => _status.value == CreateUserSecurityOfficeStatus.loading;
 
@@ -72,6 +75,11 @@ class CreateUserSecurityOfficeController extends GetxController {
     MyLogger.printInfo(currentState());
   }
 
+  void setStudentId(String id) {
+    _studentId.value = id;
+    MyLogger.printInfo(currentState());
+  }
+
   void setAddressValue(String address) {
     _address.value = address;
     MyLogger.printInfo(currentState());
@@ -85,9 +93,7 @@ class CreateUserSecurityOfficeController extends GetxController {
   Future<void> proceedToSecurityOffice() async {
     _status.value = CreateUserSecurityOfficeStatus.loading;
 
-    if (_name.value.isEmpty ||
-        _address.value.isEmpty ||
-        _userType.value == UserTypeEnum.unknown) {
+    if (_address.value.isEmpty || _userType.value == UserTypeEnum.unknown) {
       Get.snackbar(
         'Warning!',
         "Please make sure all data is valid.",

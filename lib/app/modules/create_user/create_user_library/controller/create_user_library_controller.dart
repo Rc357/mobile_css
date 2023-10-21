@@ -26,7 +26,9 @@ class CreateUserLibraryController extends GetxController {
   final isUserExpanded = false.obs;
   final isServiceExpanded = false.obs;
   final userLibraryData = Rxn<UserLibraryModel>();
+  final _studentId = ''.obs;
 
+  UserTypeEnum get userType => _userType.value;
   bool get isLoading => _status.value == CreateUserLibraryStatus.loading;
 
   String currentState() =>
@@ -74,6 +76,11 @@ class CreateUserLibraryController extends GetxController {
     MyLogger.printInfo(currentState());
   }
 
+  void setStudentId(String id) {
+    _studentId.value = id;
+    MyLogger.printInfo(currentState());
+  }
+
   void setCourseValue(CourseEnum course) {
     _course.value = course;
     MyLogger.printInfo(currentState());
@@ -97,11 +104,9 @@ class CreateUserLibraryController extends GetxController {
   Future<void> proceedToLibrary() async {
     _status.value = CreateUserLibraryStatus.loading;
 
-    if (_userType.value == UserTypeEnum.alumni ||
-        _userType.value == UserTypeEnum.parents ||
+    if (_userType.value == UserTypeEnum.parents ||
         _userType.value == UserTypeEnum.guest) {
-      if (_name.value.isEmpty ||
-          _contact.value.isEmpty ||
+      if (_contact.value.isEmpty ||
           _userType.value == UserTypeEnum.unknown ||
           _gender.value == GenderEnum.unknown) {
         Get.snackbar(
@@ -124,6 +129,41 @@ class CreateUserLibraryController extends GetxController {
             course: _course.value,
             gender: _gender.value,
             userType: _userType.value,
+            studentId: _studentId.value,
+            answered: false,
+            version: 0,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now());
+        userLibraryData.value =
+            await UserRepository.createUserLibraryToSurvey(userData);
+        _status.value = CreateUserLibraryStatus.submitted;
+      }
+    } else if (_userType.value == UserTypeEnum.alumni) {
+      if (_contact.value.isEmpty ||
+          _userType.value == UserTypeEnum.unknown ||
+          _gender.value == GenderEnum.unknown ||
+          _course.value == CourseEnum.unknown ||
+          _studentId.value.isEmpty) {
+        Get.snackbar(
+          'Warning!',
+          "Please make sure all data is valid.",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
+
+        _status.value = CreateUserLibraryStatus.error;
+      } else {
+        MyLogger.printInfo("Proceed to save data");
+
+        final userData = UserLibraryModel(
+            uid: '',
+            name: _name.value,
+            contact: _contact.value,
+            course: _course.value,
+            gender: _gender.value,
+            userType: _userType.value,
+            studentId: _studentId.value,
             answered: false,
             version: 0,
             createdAt: DateTime.now(),
@@ -133,8 +173,7 @@ class CreateUserLibraryController extends GetxController {
         _status.value = CreateUserLibraryStatus.submitted;
       }
     } else {
-      if (_name.value.isEmpty ||
-          _contact.value.isEmpty ||
+      if (_contact.value.isEmpty ||
           _userType.value == UserTypeEnum.unknown ||
           _course.value == CourseEnum.unknown ||
           _gender.value == GenderEnum.unknown) {
@@ -157,6 +196,7 @@ class CreateUserLibraryController extends GetxController {
             course: _course.value,
             gender: _gender.value,
             userType: _userType.value,
+            studentId: _studentId.value,
             answered: false,
             version: 0,
             createdAt: DateTime.now(),

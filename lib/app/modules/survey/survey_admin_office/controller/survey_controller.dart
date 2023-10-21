@@ -345,6 +345,7 @@ class SurveyAdminOfficeController extends GetxController {
           name: userData.name,
           yearLevel: userData.yearLevel,
           uid: userData.uid,
+          studentId: userData.studentId,
           version: questionVersion.value,
           updatedAt: DateTime.now(),
           userType: userData.userType);

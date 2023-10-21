@@ -82,12 +82,23 @@ class CreateUserSecurityOffice
                                   const SizedBox(
                                     height: 20,
                                   ),
+                                  UserTypeDropdown(
+                                    onChanged: (value) {
+                                      if (value == null) {
+                                        return;
+                                      }
+                                      controller.setUserTypeValue(value);
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
                                   TextFieldInput(
                                     onChanged: (String? value) {
                                       controller.setNameValue(value!);
                                     },
                                     hintText: 'Juan dela Cruz',
-                                    label: 'Name',
+                                    label: 'Name (Optional)',
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -98,17 +109,6 @@ class CreateUserSecurityOffice
                                     },
                                     hintText: 'Address',
                                     label: 'Address',
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  UserTypeDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      controller.setUserTypeValue(value);
-                                    },
                                   ),
                                   const SizedBox(
                                     height: 10,

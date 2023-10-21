@@ -343,6 +343,7 @@ class SurveyLibraryController extends GetxController {
         course: userData.course,
         gender: userData.gender,
         userType: userData.userType,
+        studentId: userData.studentId,
         answered: true,
         version: questionVersion.value,
         createdAt: userData.createdAt,

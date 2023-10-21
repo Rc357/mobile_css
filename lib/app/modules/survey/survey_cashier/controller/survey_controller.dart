@@ -342,6 +342,7 @@ class SurveyCashierOfficeController extends GetxController {
           uid: userData.uid,
           updatedAt: DateTime.now(),
           userType: userData.userType,
+          studentId: userData.studentId,
           course: userData.course,
           version: questionVersion.value,
           yearLevel: userData.yearLevel);

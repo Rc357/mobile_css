@@ -1,3 +1,4 @@
+import 'package:css/app/enum/type_user_enum.dart';
 import 'package:css/app/helpers/image_path_helper.dart';
 import 'package:css/app/modules/create_user/create_user_cashier/controller/create_user_cashier_controller.dart';
 import 'package:css/app/modules/create_user/widgets/course_dropdown_widget.dart';
@@ -103,32 +104,54 @@ class CreateUserCashier extends GetView<CreateUserCashierController> {
                                       controller.setNameValue(value!);
                                     },
                                     hintText: 'Juan dela Cruz',
-                                    label: 'Name',
+                                    label: 'Name (Optional)',
                                   ),
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  CourseDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      controller.courseAndYearLevelController
-                                          .setSelectedCourse(value);
-                                      controller.setCourseValue(value);
-                                    },
-                                  ),
+                                  if (controller.userType ==
+                                      UserTypeEnum.alumni)
+                                    Column(
+                                      children: [
+                                        StudentIDNumberTextFieldInput(
+                                          onChanged: (String? value) {
+                                            controller.setStudentId(value!);
+                                          },
+                                          hintText: '20XXXXXXXXXXXXX',
+                                          label: 'ID Number',
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  if (controller.userType ==
+                                          UserTypeEnum.student ||
+                                      controller.userType ==
+                                          UserTypeEnum.alumni)
+                                    CourseDropdown(
+                                      onChanged: (value) {
+                                        if (value == null) {
+                                          return;
+                                        }
+                                        controller.courseAndYearLevelController
+                                            .setSelectedCourse(value);
+                                        controller.setCourseValue(value);
+                                      },
+                                    ),
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  YearLevelDropdown(
-                                    onChanged: (value) {
-                                      if (value == null) {
-                                        return;
-                                      }
-                                      controller.setYearLevelValue(value);
-                                    },
-                                  ),
+                                  if (controller.userType ==
+                                      UserTypeEnum.student)
+                                    YearLevelDropdown(
+                                      onChanged: (value) {
+                                        if (value == null) {
+                                          return;
+                                        }
+                                        controller.setYearLevelValue(value);
+                                      },
+                                    ),
                                   const SizedBox(
                                     height: 10,
                                   ),

@@ -22,11 +22,13 @@ class CreateUserAdminOfficeController extends GetxController {
   final _course = CourseEnum.unknown.obs;
   final _yearLevel = YearLevelEnum.unknown.obs;
   final _userType = UserTypeEnum.unknown.obs;
+  final _studentId = ''.obs;
 
   final isUserExpanded = false.obs;
   final isServiceExpanded = false.obs;
   final _userAdminOfficeData = Rxn<UserAdminOfficeModel>();
 
+  UserTypeEnum get userType => _userType.value;
   bool get isLoading => _status.value == CreateUserAdminOfficeStatus.loading;
 
   String currentState() =>
@@ -74,6 +76,11 @@ class CreateUserAdminOfficeController extends GetxController {
     MyLogger.printInfo(currentState());
   }
 
+  void setStudentId(String id) {
+    _studentId.value = id;
+    MyLogger.printInfo(currentState());
+  }
+
   void setCourseValue(CourseEnum course) {
     _course.value = course;
     MyLogger.printInfo(currentState());
@@ -91,10 +98,9 @@ class CreateUserAdminOfficeController extends GetxController {
 
   Future<void> proceedToAdminOffice() async {
     _status.value = CreateUserAdminOfficeStatus.loading;
-    if (_userType.value == UserTypeEnum.alumni ||
-        _userType.value == UserTypeEnum.parents ||
+    if (_userType.value == UserTypeEnum.parents ||
         _userType.value == UserTypeEnum.guest) {
-      if (_name.value.isEmpty || _userType.value == UserTypeEnum.unknown) {
+      if (_userType.value == UserTypeEnum.unknown) {
         Get.snackbar(
           'Warning!',
           "Please make sure all data is valid.",
@@ -115,6 +121,39 @@ class CreateUserAdminOfficeController extends GetxController {
             course: _course.value,
             yearLevel: _yearLevel.value,
             userType: _userType.value,
+            studentId: _studentId.value,
+            answered: false,
+            version: 0,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now());
+        _userAdminOfficeData.value =
+            await UserRepository.createUserAdminOfficeToSurvey(userData);
+        _status.value = CreateUserAdminOfficeStatus.submitted;
+      }
+    } else if (_userType.value == UserTypeEnum.alumni) {
+      if (_userType.value == UserTypeEnum.unknown ||
+          _course.value == CourseEnum.unknown ||
+          _studentId.value.isEmpty) {
+        Get.snackbar(
+          'Warning!',
+          "Please make sure all data is valid.",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
+
+        _status.value = CreateUserAdminOfficeStatus.error;
+      } else {
+        _yearLevel.value = YearLevelEnum.unknown;
+        MyLogger.printInfo("Proceed to save data");
+
+        final userData = UserAdminOfficeModel(
+            uid: '',
+            name: _name.value,
+            course: _course.value,
+            yearLevel: _yearLevel.value,
+            userType: _userType.value,
+            studentId: _studentId.value,
             answered: false,
             version: 0,
             createdAt: DateTime.now(),
@@ -124,8 +163,7 @@ class CreateUserAdminOfficeController extends GetxController {
         _status.value = CreateUserAdminOfficeStatus.submitted;
       }
     } else {
-      if (_name.value.isEmpty ||
-          _course.value == CourseEnum.unknown ||
+      if (_course.value == CourseEnum.unknown ||
           _userType.value == UserTypeEnum.unknown ||
           _yearLevel.value == YearLevelEnum.unknown) {
         Get.snackbar(
@@ -146,6 +184,7 @@ class CreateUserAdminOfficeController extends GetxController {
             course: _course.value,
             yearLevel: _yearLevel.value,
             userType: _userType.value,
+            studentId: _studentId.value,
             answered: false,
             version: 0,
             createdAt: DateTime.now(),

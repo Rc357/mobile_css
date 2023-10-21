@@ -31,9 +31,7 @@ class CourseAndYearLevelController extends GetxController {
   }
 
   void setCourseIfNotStudent(UserTypeEnum type) {
-    if (type == UserTypeEnum.parents ||
-        type == UserTypeEnum.alumni ||
-        type == UserTypeEnum.guest) {
+    if (type == UserTypeEnum.parents || type == UserTypeEnum.guest) {
       courses.value = [];
     } else {
       courses.value = [

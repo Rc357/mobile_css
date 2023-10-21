@@ -27,6 +27,9 @@ class CreateUserRegistrarController extends GetxController {
   final isUserExpanded = false.obs;
   final isServiceExpanded = false.obs;
   final _userRegistrarData = Rxn<UserRegistrarModel>();
+  final _studentId = ''.obs;
+
+  UserTypeEnum get userType => _userType.value;
 
   bool get isLoading => _status.value == CreateUserRegistrarStatus.loading;
 
@@ -75,6 +78,11 @@ class CreateUserRegistrarController extends GetxController {
     MyLogger.printInfo(currentState());
   }
 
+  void setStudentId(String id) {
+    _studentId.value = id;
+    MyLogger.printInfo(currentState());
+  }
+
   void setCourseValue(CourseEnum course) {
     _course.value = course;
     MyLogger.printInfo(currentState());
@@ -93,10 +101,9 @@ class CreateUserRegistrarController extends GetxController {
   Future<void> proceedToRegistrar() async {
     _status.value = CreateUserRegistrarStatus.loading;
 
-    if (_userType.value == UserTypeEnum.alumni ||
-        _userType.value == UserTypeEnum.parents ||
+    if (_userType.value == UserTypeEnum.parents ||
         _userType.value == UserTypeEnum.guest) {
-      if (_name.value.isEmpty || _userType.value == UserTypeEnum.unknown) {
+      if (_userType.value == UserTypeEnum.unknown) {
         Get.snackbar(
           'Warning!',
           "Please make sure all data is valid.",
@@ -117,6 +124,40 @@ class CreateUserRegistrarController extends GetxController {
             course: _course.value,
             yearLevel: _yearLevel.value,
             userType: _userType.value,
+            studentId: _studentId.value,
+            answered: false,
+            version: 0,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now());
+
+        _userRegistrarData.value =
+            await UserRepository.createUserRegistrarToSurvey(userData);
+        _status.value = CreateUserRegistrarStatus.submitted;
+      }
+    } else if (_userType.value == UserTypeEnum.alumni) {
+      if (_userType.value == UserTypeEnum.unknown ||
+          _course.value == CourseEnum.unknown ||
+          _studentId.value.isEmpty) {
+        Get.snackbar(
+          'Warning!',
+          "Please make sure all data is valid.",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
+
+        _status.value = CreateUserRegistrarStatus.error;
+      } else {
+        _yearLevel.value = YearLevelEnum.unknown;
+        MyLogger.printInfo("Proceed to save data");
+
+        final userData = UserRegistrarModel(
+            uid: '',
+            name: _name.value,
+            course: _course.value,
+            yearLevel: _yearLevel.value,
+            userType: _userType.value,
+            studentId: _studentId.value,
             answered: false,
             version: 0,
             createdAt: DateTime.now(),
@@ -127,8 +168,7 @@ class CreateUserRegistrarController extends GetxController {
         _status.value = CreateUserRegistrarStatus.submitted;
       }
     } else {
-      if (_name.value.isEmpty ||
-          _course.value == CourseEnum.unknown ||
+      if (_course.value == CourseEnum.unknown ||
           _yearLevel.value == YearLevelEnum.unknown ||
           _userType.value == UserTypeEnum.unknown) {
         Get.snackbar(
@@ -149,6 +189,7 @@ class CreateUserRegistrarController extends GetxController {
             course: _course.value,
             yearLevel: _yearLevel.value,
             userType: _userType.value,
+            studentId: _studentId.value,
             answered: false,
             version: 0,
             createdAt: DateTime.now(),
