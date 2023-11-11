@@ -328,6 +328,13 @@ class SurveyRegistrarOfficeController extends GetxController {
             answerToQuestion, officeName);
       }
 
+      await QuestionsRepository.createNotificationData(
+        questionnaireVersion: 'questionnaireVersionRegistrar',
+        version: registrarQuestionsAnswers[0].version,
+        userId: userData.uid,
+        officeName: 'registrar',
+      );
+
       if (optional.isNotEmpty) {
         final remark = SurveyRemarksModel(
           id: '',

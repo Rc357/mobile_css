@@ -323,6 +323,13 @@ class SurveyLibraryController extends GetxController {
             answerToQuestion, officeName);
       }
 
+      await QuestionsRepository.createNotificationData(
+        questionnaireVersion: 'questionnaireVersionLibrary',
+        version: libraryQuestionsAnswers[0].version,
+        userId: userData.uid,
+        officeName: 'library',
+      );
+
       if (optional.isNotEmpty) {
         final remark = SurveyRemarksModel(
           id: '',

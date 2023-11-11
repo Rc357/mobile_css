@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:css/app/models/notification_model.dart';
 import 'package:css/app/models/question_model.dart';
 import 'package:css/app/instances/firebase_instances.dart';
 import 'package:css/app/models/thank_you_message_model.dart';
 
 class QuestionsRepository {
   static const String _version = 'version';
+  static const String _notifications = 'notifications';
 
   static Future<QuestionModel?> findLatestVersion(String office) async {
     final collectionRef = firestore.collection(office);
@@ -54,5 +56,28 @@ class QuestionsRepository {
       return ThankYouMessageModel.fromMap(map);
     }).toList();
     return admins;
+  }
+
+  static Future<bool> createNotificationData(
+      {required String questionnaireVersion,
+      required int version,
+      required String userId,
+      required String officeName}) async {
+    try {
+      final docRef = firestore.collection(_notifications).doc();
+      final userData = NotificationModel(
+        id: docRef.id,
+        questionnaireVersion: questionnaireVersion,
+        version: version,
+        userId: userId,
+        officeName: officeName,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+      await docRef.set(userData.toMap());
+      return true;
+    } catch (_) {
+      rethrow;
+    }
   }
 }

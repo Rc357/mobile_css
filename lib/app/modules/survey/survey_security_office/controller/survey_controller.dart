@@ -326,6 +326,13 @@ class SurveySecurityOfficeController extends GetxController {
             answerToQuestion, officeName);
       }
 
+      await QuestionsRepository.createNotificationData(
+        questionnaireVersion: 'questionnaireVersionSecurityOffice',
+        version: securityOfficeQuestionsAnswers[0].version,
+        userId: userData.uid,
+        officeName: 'securityOffice',
+      );
+
       if (optional.isNotEmpty) {
         final remark = SurveyRemarksModel(
           id: '',

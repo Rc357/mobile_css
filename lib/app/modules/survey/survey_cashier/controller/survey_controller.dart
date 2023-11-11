@@ -322,6 +322,13 @@ class SurveyCashierOfficeController extends GetxController {
             answerToQuestion, officeName);
       }
 
+      await QuestionsRepository.createNotificationData(
+        questionnaireVersion: 'questionnaireVersionCashier',
+        version: cahierQuestionsAnswers[0].version,
+        userId: userData.uid,
+        officeName: 'cashier',
+      );
+
       if (optional.isNotEmpty) {
         final remark = SurveyRemarksModel(
           id: '',
